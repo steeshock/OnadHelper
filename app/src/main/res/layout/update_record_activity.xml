@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tvProtocolNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/str_prot"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <EditText
+        android:id="@+id/etProtocolNumber"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvProtocolNumber"
+        android:layout_alignEnd="@+id/spinner"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvActNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_marginTop="111dp"
+        android:text="@string/str_act"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <EditText
+        android:id="@+id/etActNumber"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvActNumber"
+        android:layout_alignStart="@+id/etProtocolNumber"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_marginTop="171dp"
+        android:text="@string/str_desc"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="268dp"
+        android:layout_height="68dp"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_below="@+id/tvDescription"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_marginBottom="196dp"
+        android:text="@string/str_status"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvStatus"
+        android:layout_toEndOf="@+id/tvActNumber"
+        android:entries="@array/status_array" />
+
+    <Button
+        android:id="@+id/btn_add"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="87dp"
+        android:layout_marginStart="35dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/str_upd"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_add"
+        android:layout_marginEnd="35dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/str_cancel"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>

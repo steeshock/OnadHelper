@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Протоколы ver1.0</string>
+    <string name="main_activity">Главная страница</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_sort">Сортировка</string>
+    <string name="str_login">Введите имя пользователя</string>
+    <string name="str_password">Введите пароль</string>
+    <string name="str_enter">Войти</string>
+    <string name="error">Ошибка</string>
+    <string name="credentials">Евгений Николаев</string>
+    <string name="role">Тестовый пользователь</string>
+    <string name="delete_record">удалить</string>
+    <string name="update_record">изменить</string>
+    <string name="num_pa">ПА</string>
+    <string name="num_sa">C/А</string>
+    <string name="desc">Описание</string>
+    <string name="status">Статус</string>
+    <string name="new_protocol">Создать протокол</string>
+    <string name="auth">Авторизация</string>
+    <string name="str_act">Введите № С/А:</string>
+    <string name="str_prot">Введите № протокола:</string>
+    <string name="str_desc">Краткое описание:</string>
+    <string name="str_add">Добавить</string>
+    <string name="str_cancel">Отмена</string>
+    <string name="str_upd">Обновить</string>
+    <string name="update_title">Обновить запись</string>
+    <string name="str_hide">Скрыть готовые</string>
+    <string name="str_show">Показать все</string>
+    <string name="str_status">Статус:</string>
+
+    <string-array name="status_array">
+        <item>Подготовка</item>
+        <item>Канцелярия</item>
+        <item>Заказчик</item>
+        <item>Готов</item>
+    </string-array>
+</resources>
