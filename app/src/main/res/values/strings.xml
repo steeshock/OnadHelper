@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Протоколы ver1.0</string>
+    <string name="app_name">Протоколы</string>
     <string name="main_activity">Главная страница</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_sort">Сортировка</string>
+    <string name="action_filter">Фильтр</string>
     <string name="str_login">Введите имя пользователя</string>
     <string name="str_password">Введите пароль</string>
     <string name="str_enter">Войти</string>
@@ -30,11 +30,14 @@
     <string name="str_hide">Скрыть готовые</string>
     <string name="str_show">Показать все</string>
     <string name="str_status">Статус:</string>
+    <string name="str_sort">Сортировка</string>
+    <string name="str_checkbox">Запомнить меня</string>
 
     <string-array name="status_array">
         <item>Подготовка</item>
         <item>Канцелярия</item>
         <item>Заказчик</item>
         <item>Готов</item>
+        <item>Отмена</item>
     </string-array>
 </resources>

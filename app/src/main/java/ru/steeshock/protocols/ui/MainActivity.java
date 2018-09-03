@@ -2,7 +2,10 @@ package ru.steeshock.protocols.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -14,24 +17,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.database.RecordDao;
 import ru.steeshock.protocols.model.RecordAdapter;
+import ru.steeshock.protocols.utils.UserSettings;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static boolean HIDE_RECORDS_FLAG = false;
-    public static String USER_TOKEN = "USER_TOKEN";
 
-    private FloatingActionButton mFloatingActionButton;
     private RecordAdapter mRecordAdapter;
     private RecordDao recordDao;
+    private UserSettings mUserSettings;
+    private FragmentManager mFragmentManager;
 
     private RecyclerView mRecyclerView;
+
+
+
+
+    private TextView tv;
 
 
     @Override
@@ -42,12 +56,19 @@ public class MainActivity extends AppCompatActivity
         recordDao = ((AppDelegate)getApplicationContext()).getRecordDatabase().getRecordDao(); //получаем доступ к экземпляру БД
         mRecordAdapter = new RecordAdapter(recordDao);
 
+        mUserSettings = new UserSettings(getApplicationContext());
+
+        UserSettings.HIDE_RECORDS_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, false);
+        UserSettings.USER_TOKEN = mUserSettings.mSharedPreferences.getString(UserSettings.USER_TOKEN_KEY, "noname");
+
+        mFragmentManager = getSupportFragmentManager();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        mFloatingActionButton = findViewById(R.id.fab);
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -71,9 +92,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        registerForContextMenu(mRecyclerView);
+//        tv = findViewById(R.id.tv_credentials);
+//        tv.setText(R.string.app_name);
 
-        onRefresh(HIDE_RECORDS_FLAG);
+        onRefresh(UserSettings.HIDE_RECORDS_FLAG);
 
     }
 
@@ -114,6 +136,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_main) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_exit) {
+            mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.SAVE_USER_AUTH_KEY, false).apply();
             Intent openAuthActivity = new Intent(MainActivity.this, AuthActivity.class);
             startActivity (openAuthActivity);
             finish();
@@ -134,12 +157,13 @@ public class MainActivity extends AppCompatActivity
         MenuItem hide_item = menu.findItem(R.id.action_hide);
         MenuItem show_item = menu.findItem(R.id.action_show);
 
-        if(HIDE_RECORDS_FLAG) {
+        if(UserSettings.HIDE_RECORDS_FLAG) {
             show_item.setVisible(true);
             hide_item.setVisible(false);
 
+
         }
-        if(!HIDE_RECORDS_FLAG) {
+        if(!UserSettings.HIDE_RECORDS_FLAG) {
             show_item.setVisible(false);
             hide_item.setVisible(true);
         }
@@ -153,20 +177,69 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()){
             case R.id.action_sort:
-                Toast.makeText(this, ""+ "Сортировка еще не работает", Toast.LENGTH_SHORT).show();
+                showFilter(FilterFragment.newInstance());
+                //Toast.makeText(this, ""+ "Сортировка еще не работает", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_hide:
-                HIDE_RECORDS_FLAG = true;
-                onRefresh(HIDE_RECORDS_FLAG);
+                UserSettings.HIDE_RECORDS_FLAG = true;
+                mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
+                onRefresh(UserSettings.HIDE_RECORDS_FLAG);
                 break;
             case R.id.action_show:
-                HIDE_RECORDS_FLAG = false;
-                onRefresh(HIDE_RECORDS_FLAG);
+                UserSettings.HIDE_RECORDS_FLAG = false;
+                mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
+                onRefresh(UserSettings.HIDE_RECORDS_FLAG);
                 break;
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showFilter(Fragment fragment) {
+
+        String fragmentName = fragment.getClass().getName();
+
+        if (!(mFragmentManager.getBackStackEntryCount() == 1)){
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(fragmentName)
+                    .commit();
+
+        }
+
+    }
+
+    public void backupDataBase () {
+
+        // делаем резервную копию БД и сохраняем на флэшку
+        // на реальном устройстве почему-то сохраняет в память утройства
+
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite())
+            {
+                String currentDBPath = "//data//ru.steeshock.protocols//databases//record_database";
+                String backupDBPath = "backupDataBase";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(this, "DONE", Toast.LENGTH_LONG).show();
+                }
+            } else Toast.makeText(this, "Вставьте SD карту!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+
+            Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
 }

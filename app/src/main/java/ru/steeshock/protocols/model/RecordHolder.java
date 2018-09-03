@@ -12,7 +12,7 @@ public class RecordHolder extends RecyclerView.ViewHolder{
 
 
     private TextView mProtocolNumber;
-    private TextView mActNumber;
+    //private TextView mActNumber;
     private TextView mDescription;
     private TextView mStatusStr;
 
@@ -20,14 +20,15 @@ public class RecordHolder extends RecyclerView.ViewHolder{
         super(itemView);
 
         mProtocolNumber = itemView.findViewById(R.id.tvProtocolNumber);
-        mActNumber = itemView.findViewById(R.id.tvActNumber);
+        //mActNumber = itemView.findViewById(R.id.tvActNumber);
         mDescription = itemView.findViewById(R.id.tvDescription);
         mStatusStr = itemView.findViewById(R.id.tvStatus);
     }
 
     public void bind(Record record) {
         mProtocolNumber.setText(record.getProtocolNumber());
-        mActNumber.setText(record.getActNumber());
+        //mActNumber.setText(record.getActNumber());
+        //mDescription.setText(record.getUserToken());
         mDescription.setText(record.getDescription());
         mStatusStr.setText(record.getStatusStr());
 
@@ -36,6 +37,7 @@ public class RecordHolder extends RecyclerView.ViewHolder{
             case "Подготовка": mStatusStr.setBackgroundColor(Color.RED); break;
             case "Заказчик": mStatusStr.setBackgroundColor(Color.BLUE); break;
             case "Канцелярия": mStatusStr.setBackgroundColor(Color.MAGENTA); break;
+            case "Отмена": mStatusStr.setBackgroundColor(Color.GRAY); break;
         }
     }
 

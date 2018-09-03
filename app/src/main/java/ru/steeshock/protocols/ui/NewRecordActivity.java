@@ -13,6 +13,7 @@ import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.database.RecordDao;
 import ru.steeshock.protocols.model.Record;
+import ru.steeshock.protocols.utils.UserSettings;
 
 
 public class NewRecordActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class NewRecordActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), MainActivity.USER_TOKEN);
+                Record record = new Record(mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
                 recordDao.insertRecord(record);
                 Intent startMainActivity = new Intent(NewRecordActivity.this, MainActivity.class);
                 startActivity (startMainActivity);

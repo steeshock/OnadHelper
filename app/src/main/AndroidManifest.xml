@@ -16,26 +16,33 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="ru.steeshock.protocols.ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name="ru.steeshock.protocols.ui.AuthActivity"
+            android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
 
         <activity
-            android:name="ru.steeshock.protocols.ui.AuthActivity"
-            android:label="@string/auth">
+            android:name="ru.steeshock.protocols.ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/app_name">
         </activity>
 
-        <activity android:name=".ui.NewRecordActivity"
+        <activity
+            android:name=".ui.NewRecordActivity"
             android:label="@string/new_protocol">
         </activity>
-        <activity android:name=".ui.UpdateRecordActivity"
-            android:label="@string/update_title"/>
 
+        <activity
+            android:name=".ui.UpdateRecordActivity"
+            android:label="@string/update_title">
+
+        </activity>
     </application>
 
 </manifest>

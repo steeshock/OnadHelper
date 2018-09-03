@@ -22,18 +22,28 @@
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
         android:hint="@string/str_password"
         android:textAlignment="center"
         android:textStyle="italic"
         android:textSize="7pt"/>
 
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:text="@string/str_checkbox"
+        android:textStyle="italic"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/btn_login"
-        android:text="@string/str_enter" style="@style/Widget.AppCompat.Button.Borderless"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"
+        android:layout_marginTop="30dp"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/str_enter"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

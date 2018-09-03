@@ -14,6 +14,7 @@ import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.database.RecordDao;
 import ru.steeshock.protocols.model.Record;
 import ru.steeshock.protocols.model.RecordAdapter;
+import ru.steeshock.protocols.utils.UserSettings;
 
 
 public class UpdateRecordActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class UpdateRecordActivity extends AppCompatActivity {
         btnUpd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), MainActivity.USER_TOKEN);
+                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
                 mRecordDao.insertRecord(record);
                 Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
                 startActivity (startMainActivity);
