@@ -10,16 +10,21 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_hide"
+        android:id="@+id/action_backup"
         android:orderInCategory="100"
-        android:title="@string/str_hide"
+        android:title="@string/action_backup"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_show"
+        android:id="@+id/action_fillDB"
         android:orderInCategory="100"
-        android:title="@string/str_show"
-        android:visible="false"
+        android:title="@string/action_fillDB"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_extraNewRecords"
+        android:orderInCategory="100"
+        android:title="@string/extra_new_records"
         app:showAsAction="never" />
 
 </menu>

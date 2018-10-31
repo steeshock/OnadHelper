@@ -43,6 +43,7 @@
             android:label="@string/update_title">
 
         </activity>
+        <activity android:name=".ui.ExtraNewRecordActivity" />
     </application>
 
 </manifest>

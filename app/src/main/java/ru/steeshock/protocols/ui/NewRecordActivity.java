@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
-import ru.steeshock.protocols.database.RecordDao;
-import ru.steeshock.protocols.model.Record;
+import ru.steeshock.protocols.data.database.RecordDao;
+import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.utils.UserSettings;
 
 
@@ -23,6 +23,10 @@ public class NewRecordActivity extends AppCompatActivity {
     private TextView mDescription;
     private Spinner mStatus;
     private Button btnAdd, btnCancel;
+
+    // Extra fields
+    private TextView mFirstDate, mLastDate;
+    private Spinner mAuthor;
 
     private RecordDao recordDao;
 
@@ -40,6 +44,11 @@ public class NewRecordActivity extends AppCompatActivity {
         mStatus = findViewById(R.id.spinner);
         btnAdd = findViewById(R.id.btn_add);
         btnCancel = findViewById(R.id.btn_cancel);
+
+
+        mFirstDate = findViewById(R.id.textView);
+        mLastDate = findViewById(R.id.textView2);
+        mAuthor = findViewById(R.id.spinnerAuthor);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -27,11 +27,19 @@
     <string name="str_cancel">Отмена</string>
     <string name="str_upd">Обновить</string>
     <string name="update_title">Обновить запись</string>
-    <string name="str_hide">Скрыть готовые</string>
-    <string name="str_show">Показать все</string>
     <string name="str_status">Статус:</string>
     <string name="str_sort">Сортировка</string>
     <string name="str_checkbox">Запомнить меня</string>
+    <string name="str_switch1">Скрыть готовые</string>
+    <string name="str_switch2">Только мои</string>
+    <string name="action_backup">Backup DB</string>
+    <string name="first_date">Дата создания протокола:</string>
+    <string name="last_date">Дата последнего изменения:</string>
+    <string name="action_fillDB">Заполнить БД</string>
+    <string name="str_author">Автор</string>
+    <string name="str_firstdate">Дата 1:</string>
+    <string name="str_lastdate">Дата 2:</string>
+    <string name="extra_new_records">Extra new records</string>
 
     <string-array name="status_array">
         <item>Подготовка</item>
@@ -39,5 +47,13 @@
         <item>Заказчик</item>
         <item>Готов</item>
         <item>Отмена</item>
+    </string-array>
+
+    <string-array name="author_array">
+        <item>onad015</item>
+        <item>onad017</item>
+        <item>onad013</item>
+        <item>onad019</item>
+        <item>onad001</item>
     </string-array>
 </resources>

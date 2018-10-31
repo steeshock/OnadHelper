@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.model;
+package ru.steeshock.protocols.data.model;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.steeshock.protocols.R;
-import ru.steeshock.protocols.database.RecordDao;
+import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.ui.UpdateRecordActivity;
 
 
@@ -105,10 +105,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
             mHideRecords.clear();
         }
         mRecords.addAll(records);
+        mHideRecords.addAll(records);
         for (Record rec:
              mRecords) {
-            if(!rec.getStatusStr().equals("Готов")){
-                mHideRecords.add(rec);
+            if(rec.getStatusStr().equals("Готов")||rec.getStatusStr().equals("Отмена")){
+                mHideRecords.remove(rec);
             }
         }
         mRecords.clear();

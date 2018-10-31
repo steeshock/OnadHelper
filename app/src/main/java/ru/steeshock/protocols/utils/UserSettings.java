@@ -18,6 +18,9 @@ public class UserSettings {
     public static boolean SAVE_USER_AUTH_FLAG = false;// запоминание авторизованных пользователей
     public static String SAVE_USER_AUTH_KEY = "SAVE_USER_AUTH_KEY";
 
+    public static String USER_CREDENTIALS = "Тестовый пользователь...";
+    public static String credentials[] = {"Евгений Николаев", "Иван Луговский"};
+
     public UserSettings(Context context){
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }

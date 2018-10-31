@@ -1,6 +1,9 @@
 package ru.steeshock.protocols.ui;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,28 +28,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
-import ru.steeshock.protocols.database.RecordDao;
-import ru.steeshock.protocols.model.RecordAdapter;
+import ru.steeshock.protocols.common.IFilterFields;
+import ru.steeshock.protocols.data.database.DBHelper;
+import ru.steeshock.protocols.data.database.RecordDao;
+import ru.steeshock.protocols.data.model.Record;
+import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.utils.UserSettings;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IFilterFields {
 
 
+    private static final String TAG = "MyLog";
     private RecordAdapter mRecordAdapter;
     private RecordDao recordDao;
     private UserSettings mUserSettings;
     private FragmentManager mFragmentManager;
-
     private RecyclerView mRecyclerView;
 
-
-
-
-    private TextView tv;
+    // создаем объект для создания и управления версиями БД, потому что Room не бэкапится как надо
+    DBHelper dbHelper = new DBHelper (this);
 
 
     @Override
@@ -60,6 +66,12 @@ public class MainActivity extends AppCompatActivity
 
         UserSettings.HIDE_RECORDS_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, false);
         UserSettings.USER_TOKEN = mUserSettings.mSharedPreferences.getString(UserSettings.USER_TOKEN_KEY, "noname");
+
+        switch (UserSettings.USER_TOKEN){
+
+            case "onad015": UserSettings.USER_CREDENTIALS = UserSettings.credentials[0];break;
+            case "onad019": UserSettings.USER_CREDENTIALS = UserSettings.credentials[1];break;
+        }
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -92,15 +104,21 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        tv = findViewById(R.id.tv_credentials);
-//        tv.setText(R.string.app_name);
+        View headerViewCredentials = navigationView.getHeaderView(0);
+        TextView navCredentials = headerViewCredentials.findViewById(R.id.tv_credentials);
+        TextView navUsername = headerViewCredentials.findViewById(R.id.tv_username);
+
+        navCredentials.setText(UserSettings.USER_CREDENTIALS);
+        navUsername.setText(UserSettings.USER_TOKEN);
 
         onRefresh(UserSettings.HIDE_RECORDS_FLAG);
 
     }
 
 
-    private void onRefresh(boolean hide) {
+    public void onRefresh(boolean hide) {
+
+        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, hide).apply();
 
         if(!hide){
             mRecordAdapter.addRecords(recordDao.getRecords(),true);
@@ -109,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(hide){
             mRecordAdapter.addFilteredRecords(recordDao.getRecords(),true);
-            //mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
+            mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
             Toast.makeText(this, "Готовые протоколы скрыты", Toast.LENGTH_SHORT).show();
         }
     }
@@ -152,25 +170,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        MenuItem hide_item = menu.findItem(R.id.action_hide);
-        MenuItem show_item = menu.findItem(R.id.action_show);
-
-        if(UserSettings.HIDE_RECORDS_FLAG) {
-            show_item.setVisible(true);
-            hide_item.setVisible(false);
-
-
-        }
-        if(!UserSettings.HIDE_RECORDS_FLAG) {
-            show_item.setVisible(false);
-            hide_item.setVisible(true);
-        }
-
-        return true;
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,22 +177,27 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.action_sort:
                 showFilter(FilterFragment.newInstance());
-                //Toast.makeText(this, ""+ "Сортировка еще не работает", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_hide:
-                UserSettings.HIDE_RECORDS_FLAG = true;
-                mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
-                onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+            case R.id.action_backup:
+                makeSQLiteBackupDatabase();
                 break;
-            case R.id.action_show:
-                UserSettings.HIDE_RECORDS_FLAG = false;
-                mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
-                onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+            case R.id.action_fillDB:
+                fillDataBaseFromBackupFile();
+                break;
+            case R.id.action_extraNewRecords:
+                showExtraNewRecords();
                 break;
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showExtraNewRecords() {
+
+        Intent showExtraNewRecords = new Intent(MainActivity.this, ExtraNewRecordActivity.class);
+        startActivity (showExtraNewRecords);
+        finish();
     }
 
     private void showFilter(Fragment fragment) {
@@ -210,10 +214,79 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void backupDataBase () {
+    private void fillDataBaseFromBackupFile() {
 
-        // делаем резервную копию БД и сохраняем на флэшку
-        // на реальном устройстве почему-то сохраняет в память утройства
+        // подключаемся к БД
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Cursor c = db.query("RecordsTable", null, null, null, null, null, null);
+
+        c.moveToFirst();
+
+        String protocolNumber;
+        String actNumber;
+        String description;
+        String statusStr;
+        Long statusNum;
+        Long firstDate;
+        String userToken;
+
+        for (int i = 0; i < c.getCount(); i++){
+            protocolNumber = c.getString(c.getColumnIndex("protocol_number"));
+            actNumber = c.getString(c.getColumnIndex("act_number"));
+            description = c.getString(c.getColumnIndex("description"));
+            statusStr = c.getString(c.getColumnIndex("status_str"));
+            statusNum = c.getLong(c.getColumnIndex("status_num"));
+            firstDate = c.getLong(c.getColumnIndex("date"));
+            userToken = c.getString(c.getColumnIndex("user_token"));
+            Log.d(TAG, "field: " + firstDate);
+            recordDao.insertRecord(new Record(protocolNumber, actNumber, description,statusStr,  statusNum, firstDate, userToken));
+            c.moveToNext();
+        }
+
+        c.close();
+
+    }
+
+
+    public void makeSQLiteBackupDatabase() {
+
+
+        getApplicationContext().deleteDatabase("backup_record_database");
+
+        List<Record> mRecords = recordDao.getRecords();
+
+        // подключаемся к БД
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        for(Record record:mRecords) {
+
+            // создаем объект для данных
+            ContentValues cv = new ContentValues();
+
+            String protocol_number = record.getProtocolNumber();
+            String act_number = record.getActNumber();
+            String description = record.getDescription();
+            String status_str = record.getStatusStr();
+            Long status_num = record.getStatusNum();
+            Long firstDate = record.getFirstDate();
+            Long lastDate = record.getLastDate();
+            String user_token = record.getUserToken();
+
+            cv.put("protocol_number", protocol_number);
+            cv.put("act_number", act_number);
+            cv.put("description", description);
+            cv.put("status_str", status_str);
+            cv.put("status_num", status_num);
+            cv.put("first_date", firstDate);
+            cv.put("last_date", lastDate);
+            cv.put("user_token", user_token);
+
+            db.insert("RecordsTable", null, cv);
+
+        }
+
+        db.close();
 
         try {
             File sd = Environment.getExternalStorageDirectory();
@@ -221,8 +294,8 @@ public class MainActivity extends AppCompatActivity
 
             if (sd.canWrite())
             {
-                String currentDBPath = "//data//ru.steeshock.protocols//databases//record_database";
-                String backupDBPath = "backupDataBase";
+                String currentDBPath = "//data//ru.steeshock.protocols//databases//backup_record_database";
+                String backupDBPath = "backup_record_database";
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
                 if (currentDB.exists()) {
@@ -231,7 +304,7 @@ public class MainActivity extends AppCompatActivity
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
-                    Toast.makeText(this, "DONE", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Backup done", Toast.LENGTH_LONG).show();
                 }
             } else Toast.makeText(this, "Вставьте SD карту!", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
@@ -239,6 +312,32 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
         }
+
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite())
+            {
+                String currentDBPath = "//data//ru.steeshock.protocols//databases//records_database";
+                String backupDBPath = "records_database";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(this, "Backup done", Toast.LENGTH_LONG).show();
+                }
+            } else Toast.makeText(this, "Вставьте SD карту!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+
+            Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
 
     }
 

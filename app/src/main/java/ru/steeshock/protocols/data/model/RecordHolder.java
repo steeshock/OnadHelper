@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.model;
+package ru.steeshock.protocols.data.model;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import ru.steeshock.protocols.R;
-import ru.steeshock.protocols.utils.DateUtils;
 
 public class RecordHolder extends RecyclerView.ViewHolder{
 

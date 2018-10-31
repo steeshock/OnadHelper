@@ -8,7 +8,7 @@ public class DateUtils {
 
     public static String format(long time) {
         Date date = new Date(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'в' HH:mm:ss z", Locale.getDefault());
 
         return sdf.format(date);
     }

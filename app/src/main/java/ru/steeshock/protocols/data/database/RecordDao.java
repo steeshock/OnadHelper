@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.database;
+package ru.steeshock.protocols.data.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -9,7 +9,7 @@ import android.database.Cursor;
 
 import java.util.List;
 
-import ru.steeshock.protocols.model.Record;
+import ru.steeshock.protocols.data.model.Record;
 
 @Dao
 public interface RecordDao {

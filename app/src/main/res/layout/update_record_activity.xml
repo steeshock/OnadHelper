@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="18dp"
         android:text="@string/str_prot"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
@@ -23,16 +23,18 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvProtocolNumber"
-        android:layout_alignEnd="@+id/spinner"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="234dp"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvActNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tvProtocolNumber"
-        android:layout_marginTop="111dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="60dp"
         android:text="@string/str_act"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
@@ -43,15 +45,17 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvActNumber"
         android:layout_alignStart="@+id/etProtocolNumber"
+        android:layout_marginStart="0dp"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tvProtocolNumber"
-        android:layout_marginTop="171dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="112dp"
         android:text="@string/str_desc"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
@@ -68,9 +72,10 @@
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/tvProtocolNumber"
-        android:layout_marginBottom="196dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginBottom="277dp"
         android:text="@string/str_status"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
@@ -107,6 +112,57 @@
         android:background="@color/colorPrimary"
         android:text="@string/str_cancel"
         android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/lblFirstDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvUsername"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="225dp"
+        android:text="@string/first_date"
+        android:textStyle="italic"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:id="@+id/lblLastDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvUsername"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginBottom="188dp"
+        android:text="@string/last_date"
+        android:textSize="10sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_add"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-49dp"
+        android:textSize="12sp"
+        android:textStyle="italic|bold" />
+
+    <TextView
+        android:id="@+id/tvFirstDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lblFirstDate"
+        android:layout_toEndOf="@+id/tvProtocolNumber"
+        android:textSize="10sp"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/tvLastDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvFirstDate"
+        android:layout_alignBottom="@+id/lblLastDate"
+        android:textSize="10sp"
+        android:textStyle="italic"/>
 
 
 </RelativeLayout>

@@ -86,6 +86,59 @@
         android:layout_alignTop="@+id/tvStatus"
         android:layout_toEndOf="@+id/tvActNumber"
         android:entries="@array/status_array" />
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"/>
+
+    <TextView
+        android:id="@+id/tvAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="239dp"
+        android:text="@string/str_author"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <Spinner
+        android:id="@+id/spinnerAuthor"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvStatus"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="37dp"
+        android:layout_toEndOf="@+id/tvActNumber"
+        android:entries="@array/author_array" />
+
+    <TextView
+        android:id="@+id/tvFirstDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="198dp"
+        android:text="@string/str_firstdate"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <TextView
+        android:id="@+id/tvLastDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="160dp"
+        android:text="@string/str_lastdate"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
 
     <Button
         android:id="@+id/btn_add"
@@ -111,6 +164,22 @@
         android:background="@color/colorPrimary"
         android:text="@string/str_cancel"
         android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvFirstDate"
+        android:layout_marginStart="75dp"
+        android:layout_toEndOf="@+id/tvFirstDate" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvLastDate"
+        android:layout_marginStart="75dp"
+        android:layout_toEndOf="@+id/tvLastDate" />
 
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.model;
+package ru.steeshock.protocols.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -26,8 +26,11 @@ public class Record {
     @ColumnInfo(name = "status_num")
     private long mStatusNum;
 
-    @ColumnInfo(name = "date")
-    private long mDate;
+    @ColumnInfo(name = "first_date")
+    private long mFirstDate;
+
+    @ColumnInfo(name = "last_date")
+    private long mLastDate;
 
     @ColumnInfo(name = "user_token")
     private String mUserToken;
@@ -35,24 +38,39 @@ public class Record {
     public Record() {
     }
 
-    public Record(int id, String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long date, String token) {
+    // Конструктор для обновления записи
+    public Record(int id, String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, long lastDate, String token) {
         mId = id;
         mProtocolNumber = protocolNumber;
         mActNumber = actNumber;
         mDescription = description;
         mStatusStr = statusStr;
         mStatusNum = statusNum;
-        mDate = date;
+        mLastDate = lastDate;
+        mFirstDate = firstDate;
         mUserToken = token;
     }
 
-    public Record(String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long date, String token) {
+    // Конструктор для создания новой записи, ID генерируется автоматически
+    public Record(String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, String token) {
         mProtocolNumber = protocolNumber;
         mActNumber = actNumber;
         mDescription = description;
         mStatusStr = statusStr;
         mStatusNum = statusNum;
-        mDate = date;
+        mFirstDate = firstDate;
+        mUserToken = token;
+    }
+
+    // Конструктор для создания новой расширенной записи
+    public Record(String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, long lastDate, String token) {
+        mProtocolNumber = protocolNumber;
+        mActNumber = actNumber;
+        mDescription = description;
+        mStatusStr = statusStr;
+        mStatusNum = statusNum;
+        mFirstDate = firstDate;
+        mLastDate = lastDate;
         mUserToken = token;
     }
 
@@ -104,20 +122,28 @@ public class Record {
         mStatusNum = statusNum;
     }
 
-    public long getDate() {
-        return mDate;
-    }
-
-    public void setDate(long date) {
-        mDate = date;
-    }
-
     public String getUserToken() {
         return mUserToken;
     }
 
     public void setUserToken(String userToken) {
         mUserToken = userToken;
+    }
+
+    public long getFirstDate() {
+        return mFirstDate;
+    }
+
+    public void setFirstDate(long mFirstDate) {
+        this.mFirstDate = mFirstDate;
+    }
+
+    public long getLastDate() {
+        return mLastDate;
+    }
+
+    public void setLastDate(long mLastDate) {
+        this.mLastDate = mLastDate;
     }
 }
 

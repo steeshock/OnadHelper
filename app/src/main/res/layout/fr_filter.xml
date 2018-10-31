@@ -12,10 +12,10 @@
         android:textAlignment="center"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@android:color/transparent"/>
+        android:background="@color/CrayolaBlue"/>
 
     <LinearLayout
         android:id="@+id/switchesLayout"
@@ -27,7 +27,8 @@
         android:background="@color/CrayolaBlue">
 
         <Switch
-            android:text="Подготовка"
+            android:id="@+id/sw1"
+            android:text="@string/str_switch1"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -35,28 +36,14 @@
             android:textColor="@android:color/white"/>
 
         <Switch
-            android:text="Канцелярия"
+            android:id="@+id/sw2"
+            android:text="@string/str_switch2"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textColor="@android:color/white"/>
 
-        <Switch
-            android:text="Заказчик"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="@android:color/white"/>
-
-        <Switch
-            android:text="Отмена"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="@android:color/white"/>
     </LinearLayout>
 
     <LinearLayout

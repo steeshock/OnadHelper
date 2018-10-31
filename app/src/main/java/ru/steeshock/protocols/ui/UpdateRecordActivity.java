@@ -11,9 +11,10 @@ import android.widget.TextView;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
-import ru.steeshock.protocols.database.RecordDao;
-import ru.steeshock.protocols.model.Record;
-import ru.steeshock.protocols.model.RecordAdapter;
+import ru.steeshock.protocols.data.database.RecordDao;
+import ru.steeshock.protocols.data.model.Record;
+import ru.steeshock.protocols.data.model.RecordAdapter;
+import ru.steeshock.protocols.utils.DateUtils;
 import ru.steeshock.protocols.utils.UserSettings;
 
 
@@ -22,14 +23,15 @@ public class UpdateRecordActivity extends AppCompatActivity {
     private TextView mProtocolNumber;
     private TextView mActNumber;
     private TextView mDescription;
+    private TextView mUsername;
     private Spinner mStatus;
     private Button btnUpd, btnCancel;
+    private TextView mFirstDate, mLastDate;
 
     private RecordDao mRecordDao;
     private Record mRecord;
 
     private int id;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,18 +49,25 @@ public class UpdateRecordActivity extends AppCompatActivity {
         mActNumber = findViewById(R.id.etActNumber);
         mDescription = findViewById(R.id.etDescription);
         mStatus = findViewById(R.id.spinner);
+        mUsername = findViewById(R.id.tvUsername);
         btnUpd = findViewById(R.id.btn_add);
         btnCancel = findViewById(R.id.btn_cancel);
+        mFirstDate = findViewById(R.id.tvFirstDate);
+        mLastDate = findViewById(R.id.tvLastDate);
 
         mProtocolNumber.setText(mRecord.getProtocolNumber());
         mActNumber.setText(mRecord.getActNumber());
         mDescription.setText(mRecord.getDescription());
         mStatus.setSelection((int)mRecord.getStatusNum());
+        mFirstDate.setText(DateUtils.format(mRecord.getFirstDate()));
+        mLastDate.setText(DateUtils.format(mRecord.getLastDate()));
+
+        mUsername.setText("Пользователь: " + mRecord.getUserToken());
 
         btnUpd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
+                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), mRecord.getFirstDate(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
                 mRecordDao.insertRecord(record);
                 Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
                 startActivity (startMainActivity);
