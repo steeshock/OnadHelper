@@ -15,6 +15,7 @@ import java.util.List;
 import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.ui.UpdateRecordActivity;
+import ru.steeshock.protocols.utils.UserSettings;
 
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
@@ -93,30 +94,37 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
     public void addRecords(List<Record> records, boolean isRefreshed) {
         if (isRefreshed) {
             mRecords.clear();
-        }
-
-        mRecords.addAll(records);
-        notifyDataSetChanged();
-    }
-
-    public void addFilteredRecords(List<Record> records, boolean isRefreshed) {
-        if (isRefreshed) {
-            mRecords.clear();
             mHideRecords.clear();
         }
+
         mRecords.addAll(records);
         mHideRecords.addAll(records);
-        for (Record rec:
-             mRecords) {
-            if(rec.getStatusStr().equals("Готов")||rec.getStatusStr().equals("Отмена")){
-                mHideRecords.remove(rec);
+
+        if (UserSettings.HIDE_AUTHOR_FLAG) {
+            for (Record rec:
+                    mRecords) {
+                if(!rec.getUserToken().equals(UserSettings.USER_TOKEN)){
+                    mHideRecords.remove(rec);
+                }
             }
         }
+
+        mRecords.clear();
+        mRecords.addAll(mHideRecords);
+
+        if (UserSettings.HIDE_RECORDS_FLAG){
+            for (Record rec:
+                    mRecords) {
+                if(rec.getStatusStr().equals("Готов")||rec.getStatusStr().equals("Отмена")){
+                    mHideRecords.remove(rec);
+                }
+            }
+        }
+
         mRecords.clear();
         mRecords.addAll(mHideRecords);
 
         notifyDataSetChanged();
     }
-
 
 }

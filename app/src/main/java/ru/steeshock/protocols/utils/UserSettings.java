@@ -9,8 +9,11 @@ public class UserSettings {
 
     private static final String PREFERENCES_FILE_NAME = "PREFERENCES_FILE_NAME";
 
-    public static boolean HIDE_RECORDS_FLAG = false; // флаг для запоминания фильтра записей
+    public static boolean HIDE_RECORDS_FLAG = false; // готовые записи
     public static String HIDE_RECORDS_FLAG_KEY = "HIDE_RECORDS_FLAG_KEY";
+
+    public static boolean HIDE_AUTHOR_FLAG = false; // записи текущего пользователя
+    public static String HIDE_AUTHOR_FLAG_KEY = "HIDE_AUTHOR_FLAG_KEY";
 
     public static String USER_TOKEN = "USER_TOKEN";// username авторизовавшегося пользователя
     public static String USER_TOKEN_KEY = "USER_TOKEN_KEY";
@@ -19,7 +22,7 @@ public class UserSettings {
     public static String SAVE_USER_AUTH_KEY = "SAVE_USER_AUTH_KEY";
 
     public static String USER_CREDENTIALS = "Тестовый пользователь...";
-    public static String credentials[] = {"Евгений Николаев", "Иван Луговский"};
+    public static String credentials[] = {"Евгений Николаев", "Иван Луговский", "Дмитрий Капаницкий"};
 
     public UserSettings(Context context){
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);

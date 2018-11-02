@@ -65,12 +65,14 @@ public class MainActivity extends AppCompatActivity
         mUserSettings = new UserSettings(getApplicationContext());
 
         UserSettings.HIDE_RECORDS_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, false);
+        UserSettings.HIDE_AUTHOR_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, false);
         UserSettings.USER_TOKEN = mUserSettings.mSharedPreferences.getString(UserSettings.USER_TOKEN_KEY, "noname");
 
         switch (UserSettings.USER_TOKEN){
 
             case "onad015": UserSettings.USER_CREDENTIALS = UserSettings.credentials[0];break;
             case "onad019": UserSettings.USER_CREDENTIALS = UserSettings.credentials[1];break;
+            case "onad017": UserSettings.USER_CREDENTIALS = UserSettings.credentials[2];break;
         }
 
         mFragmentManager = getSupportFragmentManager();
@@ -111,25 +113,20 @@ public class MainActivity extends AppCompatActivity
         navCredentials.setText(UserSettings.USER_CREDENTIALS);
         navUsername.setText(UserSettings.USER_TOKEN);
 
-        onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+        onRefresh();
 
     }
 
 
-    public void onRefresh(boolean hide) {
+    public void onRefresh() {
 
-        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, hide).apply();
+        // Сохраняем значения переключателей в файл настроек
+        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
+        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, UserSettings.HIDE_AUTHOR_FLAG).apply();
 
-        if(!hide){
-            mRecordAdapter.addRecords(recordDao.getRecords(),true);
-            mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
-            Toast.makeText(this, "Список обновлен", Toast.LENGTH_SHORT).show();
-        }
-        if(hide){
-            mRecordAdapter.addFilteredRecords(recordDao.getRecords(),true);
-            mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
-            Toast.makeText(this, "Готовые протоколы скрыты", Toast.LENGTH_SHORT).show();
-        }
+        mRecordAdapter.addRecords(recordDao.getRecords(),true);
+        mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
+
     }
 
 

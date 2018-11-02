@@ -22,7 +22,7 @@ public class AuthActivity extends AppCompatActivity {
     private EditText etLogin, etPassword;
     private CheckBox mCheckBox;
 
-    public static final String LOGIN []= {"onad015", "onad019", "onad007"};
+    public static final String LOGIN []= {"onad015", "onad019", "onad017", "onad013", "onad001"};
     public static final String PASSWORD = "12345";
     public static final String TOKEN_STRING = "abcde12345";
     public JSONObject token = new JSONObject();

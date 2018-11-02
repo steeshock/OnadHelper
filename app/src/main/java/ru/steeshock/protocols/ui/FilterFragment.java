@@ -50,23 +50,24 @@ public class FilterFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     UserSettings.HIDE_RECORDS_FLAG = true;
-                    mFilterFields.onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+                    mFilterFields.onRefresh();
                 } else {
                     UserSettings.HIDE_RECORDS_FLAG = false;
-                    mFilterFields.onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+                    mFilterFields.onRefresh();
                 }
             }
         });
 
+        switch2.setChecked(UserSettings.HIDE_AUTHOR_FLAG);
         switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
-                    UserSettings.HIDE_RECORDS_FLAG = true;
-                    mFilterFields.onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+                    UserSettings.HIDE_AUTHOR_FLAG = true;
+                    mFilterFields.onRefresh();
                 } else {
-                    UserSettings.HIDE_RECORDS_FLAG = false;
-                    mFilterFields.onRefresh(UserSettings.HIDE_RECORDS_FLAG);
+                    UserSettings.HIDE_AUTHOR_FLAG = false;
+                    mFilterFields.onRefresh();
                 }
             }
         });
