@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.ui;
+package ru.steeshock.protocols.ui.Records;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.Record;
-import ru.steeshock.protocols.utils.UserSettings;
 
 
 public class ExtraNewRecordActivity extends AppCompatActivity {

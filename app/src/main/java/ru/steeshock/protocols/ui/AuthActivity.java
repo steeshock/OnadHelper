@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ru.steeshock.protocols.R;
+import ru.steeshock.protocols.ui.Records.MainActivity;
 import ru.steeshock.protocols.utils.UserSettings;
 
 public class AuthActivity extends AppCompatActivity {

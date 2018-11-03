@@ -36,10 +36,13 @@
     <string name="first_date">Дата создания протокола:</string>
     <string name="last_date">Дата последнего изменения:</string>
     <string name="action_fillDB">Заполнить БД</string>
-    <string name="str_author">Автор</string>
+    <string name="str_author">Автор: </string>
     <string name="str_firstdate">Дата 1:</string>
     <string name="str_lastdate">Дата 2:</string>
     <string name="extra_new_records">Extra new records</string>
+    <string name="nav_stats">Статистика</string>
+    <string name="nav_exit">Выход</string>
+    <string name="nav_main">Главная</string>
 
     <string-array name="status_array">
         <item>Подготовка</item>

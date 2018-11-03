@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvProtocolNumber"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="234dp"
+        android:layout_marginStart="223dp"
         android:textSize="14sp" />
 
     <TextView
@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvProtocolNumber"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="-1dp"
         android:layout_marginTop="60dp"
         android:text="@string/str_act"
         android:textSize="16sp"

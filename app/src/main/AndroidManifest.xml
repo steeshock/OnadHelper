@@ -28,22 +28,22 @@
         </activity>
 
         <activity
-            android:name="ru.steeshock.protocols.ui.MainActivity"
+            android:name="ru.steeshock.protocols.ui.Records.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
-            android:name=".ui.NewRecordActivity"
+            android:name=".ui.Records.NewRecordActivity"
             android:label="@string/new_protocol">
         </activity>
 
         <activity
-            android:name=".ui.UpdateRecordActivity"
+            android:name=".ui.Records.UpdateRecordActivity"
             android:label="@string/update_title">
 
         </activity>
-        <activity android:name=".ui.ExtraNewRecordActivity" />
+        <activity android:name=".ui.Records.ExtraNewRecordActivity" />
     </application>
 
 </manifest>

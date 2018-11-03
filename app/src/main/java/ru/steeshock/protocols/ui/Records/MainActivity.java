@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.ui;
+package ru.steeshock.protocols.ui.Records;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -37,6 +37,8 @@ import ru.steeshock.protocols.data.database.DBHelper;
 import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.data.model.RecordAdapter;
+import ru.steeshock.protocols.ui.AuthActivity;
+import ru.steeshock.protocols.ui.FilterFragment;
 import ru.steeshock.protocols.utils.UserSettings;
 
 public class MainActivity extends AppCompatActivity
@@ -49,8 +51,9 @@ public class MainActivity extends AppCompatActivity
     private UserSettings mUserSettings;
     private FragmentManager mFragmentManager;
     private RecyclerView mRecyclerView;
+    private TextView tvAllRecords, tvMyRecords;
 
-    // создаем объект для создания и управления версиями БД, потому что Room не бэкапится как надо
+    // создаем объект для создания и управления версиями БД через обычный SQL, потому что Room не бэкапится как надо
     DBHelper dbHelper = new DBHelper (this);
 
 
@@ -96,6 +99,8 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mRecordAdapter);
 
+        tvAllRecords = findViewById(R.id.tv_all_protocols);
+        tvMyRecords = findViewById(R.id.tv_my_protocols);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -114,9 +119,15 @@ public class MainActivity extends AppCompatActivity
         navUsername.setText(UserSettings.USER_TOKEN);
 
         onRefresh();
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        tvAllRecords.setText("" + recordDao.getRecords().size());
+        tvMyRecords.setText("" + recordDao.getRecordsByUsername(UserSettings.USER_TOKEN).size());
+    }
 
     public void onRefresh() {
 
@@ -310,7 +321,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        try {
+        /*try {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
 
@@ -333,7 +344,7 @@ public class MainActivity extends AppCompatActivity
 
             Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-        }
+        }*/
 
 
     }

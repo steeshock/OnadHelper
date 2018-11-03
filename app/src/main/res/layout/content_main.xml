@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.MainActivity"
+    tools:context=".ui.Records.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
 
@@ -50,10 +50,60 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp">
 
 
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="start"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"
+            android:text="Всего протоколов в базе: "/>
+
+        <TextView
+            android:id="@+id/tv_all_protocols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="start"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"
+            android:text="Всего моих протоколов: "/>
+
+        <TextView
+            android:id="@+id/tv_my_protocols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"

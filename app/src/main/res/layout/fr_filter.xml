@@ -5,17 +5,6 @@
     android:layout_height="270dp"
     android:orientation="vertical">
 
-    <TextView
-        android:text="@string/str_sort"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/CrayolaBlue"/>
 
     <LinearLayout
         android:id="@+id/switchesLayout"
@@ -24,7 +13,17 @@
         android:padding="10dp"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:background="@color/CrayolaBlue">
+        android:background="@drawable/rounded_blue_border">
+
+        <TextView
+            android:text="@string/str_sort"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
 
         <Switch
             android:id="@+id/sw1"

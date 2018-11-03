@@ -30,6 +30,10 @@ public interface RecordDao {
     @Query("select * from record where _id = :recordId")
     Record getRecordById(int recordId);
 
+    //Извлекаем записи по Username
+    @Query("select * from record where user_token = :username")
+    List<Record> getRecordsByUsername(String username);
+
     //извлекаем записи в виде курсора
     @Query("select * from record")
     Cursor getRecordsCursor();

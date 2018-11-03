@@ -14,7 +14,7 @@ import java.util.List;
 
 import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.data.database.RecordDao;
-import ru.steeshock.protocols.ui.UpdateRecordActivity;
+import ru.steeshock.protocols.ui.Records.UpdateRecordActivity;
 import ru.steeshock.protocols.utils.UserSettings;
 
 

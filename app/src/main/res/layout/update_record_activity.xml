@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvProtocolNumber"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="234dp"
+        android:layout_marginStart="224dp"
         android:textSize="14sp" />
 
     <TextView
@@ -70,7 +70,8 @@
 
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvProtocolNumber"
         android:layout_alignParentBottom="true"
@@ -82,9 +83,11 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="200dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tvStatus"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/tvActNumber"
         android:entries="@array/status_array" />
 
@@ -115,7 +118,8 @@
 
     <TextView
         android:id="@+id/lblFirstDate"
-        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUsername"
         android:layout_alignParentBottom="true"
@@ -126,7 +130,8 @@
 
     <TextView
         android:id="@+id/lblLastDate"
-        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUsername"
         android:layout_alignParentBottom="true"
@@ -149,6 +154,7 @@
     <TextView
         android:id="@+id/tvFirstDate"
         android:layout_width="wrap_content"
+        android:textAlignment="center"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/lblFirstDate"
         android:layout_toEndOf="@+id/tvProtocolNumber"

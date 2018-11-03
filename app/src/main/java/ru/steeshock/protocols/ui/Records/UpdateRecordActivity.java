@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.ui;
+package ru.steeshock.protocols.ui.Records;
 
 import android.content.Intent;
 import android.os.Bundle;
