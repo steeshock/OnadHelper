@@ -53,7 +53,7 @@ public class NewRecordActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
+                Record record = new Record(mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItemId(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
                 recordDao.insertRecord(record);
                 Intent startMainActivity = new Intent(NewRecordActivity.this, MainActivity.class);
                 startActivity (startMainActivity);

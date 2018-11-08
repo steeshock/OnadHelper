@@ -115,7 +115,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
         if (UserSettings.HIDE_RECORDS_FLAG){
             for (Record rec:
                     mRecords) {
-                if(rec.getStatusStr().equals("Готов")||rec.getStatusStr().equals("Отмена")){
+                if(rec.getStatusNum() == 3||rec.getStatusNum() == 4){
                     mHideRecords.remove(rec);
                 }
             }

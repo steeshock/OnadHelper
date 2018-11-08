@@ -1,6 +1,5 @@
 package ru.steeshock.protocols.ui.Records;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.utils.DateUtils;
-import ru.steeshock.protocols.utils.UserSettings;
 
 
 public class UpdateRecordActivity extends AppCompatActivity {
@@ -24,7 +22,7 @@ public class UpdateRecordActivity extends AppCompatActivity {
     private TextView mActNumber;
     private TextView mDescription;
     private TextView mUsername;
-    private Spinner mStatus;
+    private Spinner mStatus, mStage, mFailureType;
     private Button btnUpd, btnCancel;
     private TextView mFirstDate, mLastDate;
 
@@ -48,7 +46,9 @@ public class UpdateRecordActivity extends AppCompatActivity {
         mProtocolNumber = findViewById(R.id.etProtocolNumber);
         mActNumber = findViewById(R.id.etActNumber);
         mDescription = findViewById(R.id.etDescription);
-        mStatus = findViewById(R.id.spinner);
+        mStatus = findViewById(R.id.spinnerStatus);
+        mStage = findViewById(R.id.spinnerStage);
+        mFailureType = findViewById(R.id.spinnerFailureType);
         mUsername = findViewById(R.id.tvUsername);
         btnUpd = findViewById(R.id.btn_add);
         btnCancel = findViewById(R.id.btn_cancel);
@@ -59,6 +59,8 @@ public class UpdateRecordActivity extends AppCompatActivity {
         mActNumber.setText(mRecord.getActNumber());
         mDescription.setText(mRecord.getDescription());
         mStatus.setSelection((int)mRecord.getStatusNum());
+        mStage.setSelection((int)mRecord.getStage());
+        mFailureType.setSelection((int)mRecord.getFailureType());
         mFirstDate.setText(DateUtils.format(mRecord.getFirstDate()));
         mLastDate.setText(DateUtils.format(mRecord.getLastDate()));
 
@@ -67,10 +69,10 @@ public class UpdateRecordActivity extends AppCompatActivity {
         btnUpd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(), mStatus.getSelectedItem().toString(),  mStatus.getSelectedItemId(), mRecord.getFirstDate(), System.currentTimeMillis(), UserSettings.USER_TOKEN);
+                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(),  mStatus.getSelectedItemId(), mStage.getSelectedItemId(), mFailureType.getSelectedItemId(), mRecord.getFirstDate(), mRecord.getLastDate(), mRecord.getUserToken());
                 mRecordDao.insertRecord(record);
-                Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
-                startActivity (startMainActivity);
+                //Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
+                //startActivity (startMainActivity);
                 finish();
             }
         });
@@ -78,8 +80,8 @@ public class UpdateRecordActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
-                startActivity (startMainActivity);
+                //Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
+                //startActivity (startMainActivity);
                 finish();
             }
         });

@@ -63,43 +63,91 @@
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="268dp"
-        android:layout_height="68dp"
+        android:layout_height="50dp"
         android:layout_alignStart="@+id/tvProtocolNumber"
         android:layout_below="@+id/tvDescription"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvStatus"
-        android:textAlignment="center"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvProtocolNumber"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginBottom="277dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="300dp"
         android:text="@string/str_status"
+        android:textAlignment="textStart"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
 
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="170dp"
+        android:id="@+id/spinnerStatus"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tvStatus"
-        android:layout_marginStart="42dp"
+        android:layout_alignBottom="@+id/tvStatus"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/tvActNumber"
         android:entries="@array/status_array" />
+
+    <TextView
+        android:id="@+id/tvStage"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="257dp"
+        android:text="@string/str_stage"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <Spinner
+        android:id="@+id/spinnerStage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvStatus"
+        android:layout_alignBottom="@+id/tvStage"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="42dp"
+        android:layout_toEndOf="@+id/tvActNumber"
+        android:entries="@array/stages_array" />
+
+    <TextView
+        android:id="@+id/tvFailureType"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="219dp"
+        android:text="@string/str_failure_type"
+        android:textAlignment="textStart"
+        android:textSize="14sp"
+        android:textStyle="italic|bold" />
+
+    <Spinner
+        android:id="@+id/spinnerFailureType"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvStatus"
+        android:layout_alignBottom="@+id/tvFailureType"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="79dp"
+        android:layout_toEndOf="@+id/tvActNumber"
+        android:entries="@array/failure_type_array" />
 
     <Button
         android:id="@+id/btn_add"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="130dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="35dp"
+        android:layout_marginBottom="35dp"
         android:background="@color/colorPrimary"
         android:text="@string/str_upd"
         android:textColor="@android:color/white" />
@@ -118,26 +166,27 @@
 
     <TextView
         android:id="@+id/lblFirstDate"
-        android:textAlignment="center"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUsername"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="225dp"
+        android:layout_marginStart="-5dp"
+        android:layout_marginBottom="183dp"
         android:text="@string/first_date"
-        android:textStyle="italic"
-        android:textSize="10sp"/>
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/lblLastDate"
-        android:textAlignment="center"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUsername"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginStart="-5dp"
+        android:layout_marginBottom="162dp"
         android:text="@string/last_date"
+        android:textAlignment="center"
         android:textSize="10sp"
         android:textStyle="italic" />
 
@@ -145,9 +194,10 @@
         android:id="@+id/tvUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_add"
+        android:layout_alignTop="@+id/tvFirstDate"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="-49dp"
+        android:layout_marginTop="50dp"
+        android:textAlignment="textStart"
         android:textSize="12sp"
         android:textStyle="italic|bold" />
 

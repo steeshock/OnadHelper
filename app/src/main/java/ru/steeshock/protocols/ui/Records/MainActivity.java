@@ -38,6 +38,7 @@ import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.ui.AuthActivity;
+import ru.steeshock.protocols.ui.Charts.PieChartActivity;
 import ru.steeshock.protocols.ui.FilterFragment;
 import ru.steeshock.protocols.utils.UserSettings;
 
@@ -127,7 +128,10 @@ public class MainActivity extends AppCompatActivity
 
         tvAllRecords.setText("" + recordDao.getRecords().size());
         tvMyRecords.setText("" + recordDao.getRecordsByUsername(UserSettings.USER_TOKEN).size());
+
+        onRefresh();
     }
+
 
     public void onRefresh() {
 
@@ -159,13 +163,20 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        if (id == R.id.nav_main) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_exit) {
-            mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.SAVE_USER_AUTH_KEY, false).apply();
-            Intent openAuthActivity = new Intent(MainActivity.this, AuthActivity.class);
-            startActivity (openAuthActivity);
-            finish();
+        switch (id){
+            case R.id.nav_main: drawer.closeDrawer(GravityCompat.START); break;
+
+            case R.id.nav_exit: {
+                mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.SAVE_USER_AUTH_KEY, false).apply();
+                Intent openAuthActivity = new Intent(MainActivity.this, AuthActivity.class);
+                startActivity (openAuthActivity);
+                finish();
+            }   break;
+
+            case R.id.nav_stats: {
+                Intent openStatsActivity = new Intent(MainActivity.this, PieChartActivity.class);
+                startActivity (openStatsActivity);
+            }   break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -234,21 +245,21 @@ public class MainActivity extends AppCompatActivity
         String protocolNumber;
         String actNumber;
         String description;
-        String statusStr;
         Long statusNum;
         Long firstDate;
+        Long lastDate;
         String userToken;
 
         for (int i = 0; i < c.getCount(); i++){
             protocolNumber = c.getString(c.getColumnIndex("protocol_number"));
             actNumber = c.getString(c.getColumnIndex("act_number"));
             description = c.getString(c.getColumnIndex("description"));
-            statusStr = c.getString(c.getColumnIndex("status_str"));
             statusNum = c.getLong(c.getColumnIndex("status_num"));
-            firstDate = c.getLong(c.getColumnIndex("date"));
+            firstDate = c.getLong(c.getColumnIndex("first_date"));
+            lastDate = c.getLong(c.getColumnIndex("last_date"));
             userToken = c.getString(c.getColumnIndex("user_token"));
             Log.d(TAG, "field: " + firstDate);
-            recordDao.insertRecord(new Record(protocolNumber, actNumber, description,statusStr,  statusNum, firstDate, userToken));
+            recordDao.insertRecord(new Record(protocolNumber, actNumber, description, statusNum, firstDate, lastDate, userToken));
             c.moveToNext();
         }
 
@@ -275,19 +286,21 @@ public class MainActivity extends AppCompatActivity
             String protocol_number = record.getProtocolNumber();
             String act_number = record.getActNumber();
             String description = record.getDescription();
-            String status_str = record.getStatusStr();
             Long status_num = record.getStatusNum();
             Long firstDate = record.getFirstDate();
             Long lastDate = record.getLastDate();
+            Long stage = record.getStage();
+            Long failureType = record.getFailureType();
             String user_token = record.getUserToken();
 
             cv.put("protocol_number", protocol_number);
             cv.put("act_number", act_number);
             cv.put("description", description);
-            cv.put("status_str", status_str);
             cv.put("status_num", status_num);
             cv.put("first_date", firstDate);
             cv.put("last_date", lastDate);
+            cv.put("stage", stage);
+            cv.put("failure_type", failureType);
             cv.put("user_token", user_token);
 
             db.insert("RecordsTable", null, cv);

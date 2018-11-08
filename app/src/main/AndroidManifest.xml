@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.steeshock.protocols">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -13,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name="ru.steeshock.protocols.ui.AuthActivity"
@@ -41,9 +43,16 @@
         <activity
             android:name=".ui.Records.UpdateRecordActivity"
             android:label="@string/update_title">
-
         </activity>
-        <activity android:name=".ui.Records.ExtraNewRecordActivity" />
+
+        <activity
+            android:name=".ui.Records.ExtraNewRecordActivity"
+            android:label="@string/new_protocol"/>
+
+        <activity
+            android:name=".ui.Charts.PieChartActivity"
+            android:label="@string/stats_title"/>
+
     </application>
 
 </manifest>

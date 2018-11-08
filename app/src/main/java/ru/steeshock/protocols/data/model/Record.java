@@ -7,6 +7,10 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Record {
 
+    public static final String[] LIST_OF_STATUSES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
+    public static final String[] LIST_OF_STAGES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
+    public static final String[] LIST_OF_FAILURE_TYPES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int mId;
@@ -20,9 +24,6 @@ public class Record {
     @ColumnInfo(name = "description")
     private String mDescription;
 
-    @ColumnInfo(name = "status_str")
-    private String mStatusStr;
-
     @ColumnInfo(name = "status_num")
     private long mStatusNum;
 
@@ -32,6 +33,12 @@ public class Record {
     @ColumnInfo(name = "last_date")
     private long mLastDate;
 
+    @ColumnInfo(name = "stage")
+    private long mStage;
+
+    @ColumnInfo(name = "failureType")
+    private long mFailureType;
+
     @ColumnInfo(name = "user_token")
     private String mUserToken;
 
@@ -39,35 +46,34 @@ public class Record {
     }
 
     // Конструктор для обновления записи
-    public Record(int id, String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, long lastDate, String token) {
+    public Record(int id, String protocolNumber, String actNumber, String description, long statusNum, long stage, long failureType, long firstDate, long lastDate, String token) {
         mId = id;
         mProtocolNumber = protocolNumber;
         mActNumber = actNumber;
         mDescription = description;
-        mStatusStr = statusStr;
         mStatusNum = statusNum;
+        mStage = stage;
+        mFailureType = failureType;
         mLastDate = lastDate;
         mFirstDate = firstDate;
         mUserToken = token;
     }
 
     // Конструктор для создания новой записи, ID генерируется автоматически
-    public Record(String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, String token) {
+    public Record(String protocolNumber, String actNumber, String description, long statusNum, long firstDate, String token) {
         mProtocolNumber = protocolNumber;
         mActNumber = actNumber;
         mDescription = description;
-        mStatusStr = statusStr;
         mStatusNum = statusNum;
         mFirstDate = firstDate;
         mUserToken = token;
     }
 
     // Конструктор для создания новой расширенной записи
-    public Record(String protocolNumber, String actNumber, String description, String statusStr, long statusNum, long firstDate, long lastDate, String token) {
+    public Record(String protocolNumber, String actNumber, String description, long statusNum, long firstDate, long lastDate, String token) {
         mProtocolNumber = protocolNumber;
         mActNumber = actNumber;
         mDescription = description;
-        mStatusStr = statusStr;
         mStatusNum = statusNum;
         mFirstDate = firstDate;
         mLastDate = lastDate;
@@ -106,14 +112,6 @@ public class Record {
         mDescription = description;
     }
 
-    public String getStatusStr() {
-        return mStatusStr;
-    }
-
-    public void setStatusStr(String statusStr) {
-        mStatusStr = statusStr;
-    }
-
     public long getStatusNum() {
         return mStatusNum;
     }
@@ -144,6 +142,26 @@ public class Record {
 
     public void setLastDate(long mLastDate) {
         this.mLastDate = mLastDate;
+    }
+
+    public String getStatusStr() {
+        return LIST_OF_STATUSES[(int)getStatusNum()];
+    }
+
+    public long getStage() {
+        return mStage;
+    }
+
+    public void setStage(long mStage) {
+        this.mStage = mStage;
+    }
+
+    public long getFailureType() {
+        return mFailureType;
+    }
+
+    public void setFailureType(long mFailureType) {
+        this.mFailureType = mFailureType;
     }
 }
 

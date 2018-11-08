@@ -7,10 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    final String LOG_TAG = "myLogs";
-    final String DB_NAME = "myDataBase";
-
-
     public DBHelper(Context context) {
         super(context, "backup_record_database", null, 1);
     }
@@ -27,10 +23,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "protocol_number text,"
                 + "act_number text,"
                 + "description text,"
-                + "status_str text,"
                 + "status_num integer,"
                 + "first_date integer,"
                 + "last_date integer,"
+                + "stage integer,"
+                + "failure_type integer,"
                 + "user_token text" + ");");
 
     }

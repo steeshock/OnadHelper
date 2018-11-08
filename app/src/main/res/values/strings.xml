@@ -43,6 +43,9 @@
     <string name="nav_stats">Статистика</string>
     <string name="nav_exit">Выход</string>
     <string name="nav_main">Главная</string>
+    <string name="stats_title">Статистика</string>
+    <string name="str_stage">Этап: </string>
+    <string name="str_failure_type">Вид отказа:</string>
 
     <string-array name="status_array">
         <item>Подготовка</item>
@@ -50,6 +53,34 @@
         <item>Заказчик</item>
         <item>Готов</item>
         <item>Отмена</item>
+    </string-array>
+
+    <string-array name="stages_array">
+        <item>Регулировка</item>
+        <item>Испытания</item>
+        <item>ШМР</item>
+        <item>Эксплуатация</item>
+        <item>Сервисное обслуживание</item>
+        <item>Сборка</item>
+        <item>Вх. контроль</item>
+        <item>Прогон</item>
+        <item>Техтряска</item>
+    </string-array>
+
+    <string-array name="failure_type_array">
+        <item>Технологический</item>
+        <item>Конструктивный</item>
+        <item>Эксплуатационный</item>
+        <item>ПКИ</item>
+        <item>Производственный</item>
+        <item>Неподтвердившийся</item>
+        <item>Технологический, Конструктивный</item>
+        <item>Технологический, Производственный</item>
+        <item>Производственный, Производственный</item>
+        <item>Технологический, Конструктивный, Производственный</item>
+        <item>ПКИ, Конструктивный</item>
+        <item>ПКИ, Производственный</item>
+        <item>ПКИ, Эксплуатационный</item>
     </string-array>
 
     <string-array name="author_array">
