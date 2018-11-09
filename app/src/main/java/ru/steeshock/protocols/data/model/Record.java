@@ -7,10 +7,6 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Record {
 
-    public static final String[] LIST_OF_STATUSES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
-    public static final String[] LIST_OF_STAGES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
-    public static final String[] LIST_OF_FAILURE_TYPES = {"Подготовка", "Канцелярия", "Заказчик", "Готов", "Отмена"};
-
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     private int mId;
@@ -142,10 +138,6 @@ public class Record {
 
     public void setLastDate(long mLastDate) {
         this.mLastDate = mLastDate;
-    }
-
-    public String getStatusStr() {
-        return LIST_OF_STATUSES[(int)getStatusNum()];
     }
 
     public long getStage() {

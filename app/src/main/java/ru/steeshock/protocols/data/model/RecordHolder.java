@@ -25,7 +25,7 @@ public class RecordHolder extends RecyclerView.ViewHolder{
     public void bind(Record record) {
         mProtocolNumber.setText(record.getProtocolNumber());
         mDescription.setText(record.getDescription());
-        mStatusStr.setText(record.getStatusStr());
+        mStatusStr.setText(RecordHelper.getStatusStr(record));
 
         switch ((int)record.getStatusNum()){
             case 0: mStatusStr.setBackgroundColor(Color.RED); break;

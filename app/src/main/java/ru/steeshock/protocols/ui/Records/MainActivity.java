@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,15 +48,18 @@ public class MainActivity extends AppCompatActivity
 
 
     private static final String TAG = "MyLog";
+    private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
     private RecordAdapter mRecordAdapter;
     private RecordDao recordDao;
     private UserSettings mUserSettings;
     private FragmentManager mFragmentManager;
     private RecyclerView mRecyclerView;
     private TextView tvAllRecords, tvMyRecords;
+    private LinearLayoutManager mLayoutLinearManager;
 
     // создаем объект для создания и управления версиями БД через обычный SQL, потому что Room не бэкапится как надо
     DBHelper dbHelper = new DBHelper (this);
+    private Parcelable mListState;
 
 
     @Override
@@ -97,7 +101,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         mRecyclerView = findViewById(R.id.recycler);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLayoutLinearManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutLinearManager);
         mRecyclerView.setAdapter(mRecordAdapter);
 
         tvAllRecords = findViewById(R.id.tv_all_protocols);
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         navCredentials.setText(UserSettings.USER_CREDENTIALS);
         navUsername.setText(UserSettings.USER_TOKEN);
 
-        onRefresh();
+        onRefresh(true);
     }
 
     @Override
@@ -129,19 +134,29 @@ public class MainActivity extends AppCompatActivity
         tvAllRecords.setText("" + recordDao.getRecords().size());
         tvMyRecords.setText("" + recordDao.getRecordsByUsername(UserSettings.USER_TOKEN).size());
 
-        onRefresh();
+        onRefresh(false);
+
+        if (mListState != null) {
+            mLayoutLinearManager.onRestoreInstanceState(mListState);
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-    public void onRefresh() {
+        // Save list state
+        mListState = mLayoutLinearManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+    }
 
-        // Сохраняем значения переключателей в файл настроек
-        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
-        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, UserSettings.HIDE_AUTHOR_FLAG).apply();
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-        mRecordAdapter.addRecords(recordDao.getRecords(),true);
-        mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
-
+        // Retrieve list state and list/item positions
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
     }
 
 
@@ -362,4 +377,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onRefresh(boolean isScrollListToEnd) {
+        // Сохраняем значения переключателей в файл настроек
+        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
+        mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, UserSettings.HIDE_AUTHOR_FLAG).apply();
+
+        mRecordAdapter.addRecords(recordDao.getRecords(),true);
+        if (isScrollListToEnd)
+            mRecyclerView.scrollToPosition(mRecordAdapter.getItemCount()-1);
+
+    }
 }

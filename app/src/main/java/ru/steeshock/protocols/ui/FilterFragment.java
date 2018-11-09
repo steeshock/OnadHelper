@@ -51,10 +51,10 @@ public class FilterFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     UserSettings.HIDE_RECORDS_FLAG = true;
-                    mFilterFields.onRefresh();
+                    mFilterFields.onRefresh(true);
                 } else {
                     UserSettings.HIDE_RECORDS_FLAG = false;
-                    mFilterFields.onRefresh();
+                    mFilterFields.onRefresh(true);
                 }
             }
         });
@@ -65,10 +65,10 @@ public class FilterFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     UserSettings.HIDE_AUTHOR_FLAG = true;
-                    mFilterFields.onRefresh();
+                    mFilterFields.onRefresh(true);
                 } else {
                     UserSettings.HIDE_AUTHOR_FLAG = false;
-                    mFilterFields.onRefresh();
+                    mFilterFields.onRefresh(true);
                 }
             }
         });
