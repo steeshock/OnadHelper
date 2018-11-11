@@ -1,10 +1,9 @@
 
-package ru.steeshock.protocols.ui.Charts;
+package ru.steeshock.protocols.ui.Charts.listviewitems;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
@@ -25,7 +25,7 @@ public class PieChartItem extends ChartItem {
     //private final SpannableString mCenterText;
     private String mCenterText;
 
-    public PieChartItem(ChartData<?> cd, Context c, String centerText) {
+    public PieChartItem(ChartData<?> cd, String centerText) {
         super(cd);
         mCenterText = centerText;
         //mCenterText = generateCenterText();
@@ -60,7 +60,7 @@ public class PieChartItem extends ChartItem {
         holder.chart.getDescription().setEnabled(false);
         holder.chart.setHoleRadius(42f);
         holder.chart.setTransparentCircleRadius(47f);
-        holder.chart.setCenterText(mCenterText); // ЗАДАТЬ В КОНСТРУКТОРЕ
+        holder.chart.setCenterText(mCenterText);
         holder.chart.setCenterTextSize(12f);
         holder.chart.setUsePercentValues(true);
         //holder.chart.setExtraOffsets(5, 10, 50, 10);

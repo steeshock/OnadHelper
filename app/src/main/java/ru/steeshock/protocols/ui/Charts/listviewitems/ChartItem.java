@@ -1,4 +1,4 @@
-package ru.steeshock.protocols.ui.Charts;
+package ru.steeshock.protocols.ui.Charts.listviewitems;
 
 import android.content.Context;
 import android.view.View;

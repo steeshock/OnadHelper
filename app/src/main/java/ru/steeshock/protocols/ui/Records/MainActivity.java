@@ -40,7 +40,6 @@ import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.ui.AuthActivity;
 import ru.steeshock.protocols.ui.Charts.ListViewMultiChartActivity;
-import ru.steeshock.protocols.ui.Charts.PieChartActivity;
 import ru.steeshock.protocols.ui.FilterFragment;
 import ru.steeshock.protocols.utils.UserSettings;
 
