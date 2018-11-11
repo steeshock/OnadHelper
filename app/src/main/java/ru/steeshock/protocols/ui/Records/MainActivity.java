@@ -39,6 +39,7 @@ import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.Record;
 import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.ui.AuthActivity;
+import ru.steeshock.protocols.ui.Charts.ListViewMultiChartActivity;
 import ru.steeshock.protocols.ui.Charts.PieChartActivity;
 import ru.steeshock.protocols.ui.FilterFragment;
 import ru.steeshock.protocols.utils.UserSettings;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MyLog";
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
+
     private RecordAdapter mRecordAdapter;
     private RecordDao recordDao;
     private UserSettings mUserSettings;
@@ -189,7 +191,7 @@ public class MainActivity extends AppCompatActivity
             }   break;
 
             case R.id.nav_stats: {
-                Intent openStatsActivity = new Intent(MainActivity.this, PieChartActivity.class);
+                Intent openStatsActivity = new Intent(MainActivity.this, ListViewMultiChartActivity.class);
                 startActivity (openStatsActivity);
             }   break;
         }

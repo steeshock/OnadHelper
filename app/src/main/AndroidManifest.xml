@@ -50,7 +50,10 @@
             android:label="@string/new_protocol"/>
 
         <activity
-            android:name=".ui.Charts.PieChartActivity"
+            android:name=".ui.Charts.PieChartActivity" />
+
+        <activity
+            android:name=".ui.Charts.ListViewMultiChartActivity"
             android:label="@string/stats_title"/>
 
     </application>
