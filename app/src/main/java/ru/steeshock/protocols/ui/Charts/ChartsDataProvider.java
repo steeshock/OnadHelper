@@ -161,7 +161,7 @@ public class ChartsDataProvider {
         List<Integer> protocolsByStages = new ArrayList<>();
         List<Integer> sortedList = new ArrayList<>();
 
-        for (int i = 0; i < RecordHelper.LIST_OF_STAGES.length; i++){
+        for (int i = 0; i < RecordHelper.LIST_OF_FULL_STAGES.length; i++){
             protocolsByStages.add(mRecordDao.getRecordsByStage(i).size());
         }
 

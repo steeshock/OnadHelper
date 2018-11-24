@@ -24,6 +24,14 @@ public class UserSettings {
     public static String USER_CREDENTIALS = "Тестовый пользователь...";
     public static String credentials[] = {"Евгений Николаев", "Иван Луговский", "Дмитрий Капаницкий"};
 
+    // флаги сортировок, если флаг установлен - значит пользователь уже выполнял такую сортировку
+
+    public static boolean SORT_RECORDS_BY_PROTOCOL = false;
+    public static boolean SORT_RECORDS_BY_DESCRIPTION = false;
+    public static boolean SORT_RECORDS_BY_STATUS = false;
+
+    public static boolean SORT_ORDER = true;
+
     public UserSettings(Context context){
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }

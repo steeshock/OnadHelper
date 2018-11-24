@@ -1,12 +1,16 @@
 package ru.steeshock.protocols.ui.Records;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
@@ -28,8 +32,11 @@ public class UpdateRecordActivity extends AppCompatActivity {
 
     private RecordDao mRecordDao;
     private Record mRecord;
+    private Calendar dateAndTime = Calendar.getInstance();
 
     private int id;
+    private Long mFirstDateLong;
+    private Long mLastDateLong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,15 +71,16 @@ public class UpdateRecordActivity extends AppCompatActivity {
         mFirstDate.setText(DateUtils.format(mRecord.getFirstDate()));
         mLastDate.setText(DateUtils.format(mRecord.getLastDate()));
 
+        mFirstDateLong = mRecord.getFirstDate();
+        mLastDateLong = mRecord.getLastDate();
+
         mUsername.setText("Пользователь: " + mRecord.getUserToken());
 
         btnUpd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(),  mStatus.getSelectedItemId(), mStage.getSelectedItemId(), mFailureType.getSelectedItemId(), mRecord.getFirstDate(), mRecord.getLastDate(), mRecord.getUserToken());
+                Record record = new Record(id, mProtocolNumber.getText().toString(), mActNumber.getText().toString(), mDescription.getText().toString(),  mStatus.getSelectedItemId(), mStage.getSelectedItemId(), mFailureType.getSelectedItemId(), mFirstDateLong, mLastDateLong, mRecord.getUserToken());
                 mRecordDao.insertRecord(record);
-                //Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
-                //startActivity (startMainActivity);
                 finish();
             }
         });
@@ -80,9 +88,51 @@ public class UpdateRecordActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent startMainActivity = new Intent(UpdateRecordActivity.this, MainActivity.class);
-                //startActivity (startMainActivity);
                 finish();
+            }
+        });
+
+        final DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                mFirstDateLong = dateAndTime.getTimeInMillis();
+                mFirstDate.setText(DateUtils.format(mFirstDateLong));
+            }
+        };
+
+        final DatePickerDialog.OnDateSetListener b = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                mLastDateLong = dateAndTime.getTimeInMillis();
+                mLastDate.setText(DateUtils.format(mLastDateLong));
+            }
+        };
+
+        mFirstDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(UpdateRecordActivity.this, d,
+                        dateAndTime.get(Calendar.YEAR),
+                        dateAndTime.get(Calendar.MONTH),
+                        dateAndTime.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
+        });
+
+        mLastDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(UpdateRecordActivity.this, b,
+                        dateAndTime.get(Calendar.YEAR),
+                        dateAndTime.get(Calendar.MONTH),
+                        dateAndTime.get(Calendar.DAY_OF_MONTH))
+                        .show();
             }
         });
     }

@@ -52,10 +52,9 @@
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvActNumber"
         android:layout_alignStart="@+id/tvProtocolNumber"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="18dp"
         android:text="@string/str_desc"
         android:textSize="16sp"
         android:textStyle="italic|bold" />
@@ -64,8 +63,12 @@
         android:id="@+id/etDescription"
         android:layout_width="268dp"
         android:layout_height="50dp"
-        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_above="@+id/tvStatus"
         android:layout_below="@+id/tvDescription"
+        android:layout_alignStart="@+id/tvProtocolNumber"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="13dp"
+        android:textAlignment="viewStart"
         android:textSize="14sp" />
 
     <TextView

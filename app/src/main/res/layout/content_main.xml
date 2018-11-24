@@ -16,7 +16,8 @@
         android:layout_height="30dp">
 
         <TextView
-            android:layout_width="55dp"
+            android:id="@+id/tvProtocolMainPage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginStart="5dp"
@@ -24,8 +25,15 @@
             android:textStyle="bold"
             android:text="@string/num_pa"/>
 
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:src="@drawable/sort_down" />
+
 
         <TextView
+            android:id="@+id/tvDescMainPage"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -35,6 +43,7 @@
             android:text="@string/desc"/>
 
         <TextView
+            android:id="@+id/tvStatusMainPage"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"

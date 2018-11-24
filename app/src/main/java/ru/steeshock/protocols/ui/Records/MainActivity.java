@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager mFragmentManager;
     private RecyclerView mRecyclerView;
     private TextView tvAllRecords, tvMyRecords;
+    private TextView tvProtocols, tvDescription, tvStatus;
     private LinearLayoutManager mLayoutLinearManager;
 
     // создаем объект для создания и управления версиями БД через обычный SQL, потому что Room не бэкапится как надо
@@ -83,6 +84,38 @@ public class MainActivity extends AppCompatActivity
             case "onad019": UserSettings.USER_CREDENTIALS = UserSettings.credentials[1];break;
             case "onad017": UserSettings.USER_CREDENTIALS = UserSettings.credentials[2];break;
         }
+
+        // Начало Сортировка полей при нажатии на TextView
+
+        tvProtocols = findViewById(R.id.tvProtocolMainPage);
+        tvDescription = findViewById(R.id.tvDescMainPage);
+        tvStatus = findViewById(R.id.tvStatusMainPage);
+
+        tvProtocols.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRecordAdapter.sortRecordsByProtocolNumber(UserSettings.SORT_ORDER);
+                UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+            }
+        });
+
+        tvDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRecordAdapter.sortRecordsByDescription(UserSettings.SORT_ORDER);
+                UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+            }
+        });
+
+        tvStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRecordAdapter.sortRecordsByStatus(UserSettings.SORT_ORDER);
+                UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+            }
+        });
+
+        //Конец Сортировка полей
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -380,6 +413,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRefresh(boolean isScrollListToEnd) {
+
         // Сохраняем значения переключателей в файл настроек
         mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, UserSettings.HIDE_RECORDS_FLAG).apply();
         mUserSettings.mSharedPreferences.edit().putBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, UserSettings.HIDE_AUTHOR_FLAG).apply();

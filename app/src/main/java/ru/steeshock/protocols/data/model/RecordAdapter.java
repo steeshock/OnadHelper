@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ru.steeshock.protocols.R;
@@ -92,6 +95,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
 
 
     public void addRecords(List<Record> records, boolean isRefreshed) {
+
         if (isRefreshed) {
             mRecords.clear();
             mHideRecords.clear();
@@ -124,7 +128,109 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
         mRecords.clear();
         mRecords.addAll(mHideRecords);
 
+        //сортируем списки,если они уже были отсортированы ранее
+
+        if(UserSettings.SORT_RECORDS_BY_PROTOCOL)
+            sortRecordsByProtocolNumber(true);
+
+        if(UserSettings.SORT_RECORDS_BY_DESCRIPTION)
+            sortRecordsByDescription(true);
+
+        if(UserSettings.SORT_RECORDS_BY_STATUS)
+            sortRecordsByStatus(true);
+
+
         notifyDataSetChanged();
     }
+
+    public void sortRecordsByProtocolNumber(boolean order) {
+
+        UserSettings.SORT_RECORDS_BY_PROTOCOL = true;
+        UserSettings.SORT_RECORDS_BY_DESCRIPTION= false;
+        UserSettings.SORT_RECORDS_BY_STATUS = false;
+
+        if (mRecords.size() > 0) {
+            if (order){
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return object1.getProtocolNumber().compareTo(object2.getProtocolNumber());
+                    }
+                });
+                UserSettings.SORT_ORDER = true;
+            } else {
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return object2.getProtocolNumber().compareTo(object1.getProtocolNumber());
+                    }
+                });
+                UserSettings.SORT_ORDER = false;
+            }
+
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void sortRecordsByDescription(boolean order) {
+
+        UserSettings.SORT_RECORDS_BY_PROTOCOL = false;
+        UserSettings.SORT_RECORDS_BY_DESCRIPTION= true;
+        UserSettings.SORT_RECORDS_BY_STATUS = false;
+
+        if (mRecords.size() > 0) {
+            if (order){
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return object1.getDescription().compareTo(object2.getDescription());
+                    }
+                });
+                UserSettings.SORT_ORDER = true;
+            } else {
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return object2.getDescription().compareTo(object1.getDescription());
+                    }
+                });
+                UserSettings.SORT_ORDER = false;
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void sortRecordsByStatus(boolean order) {
+
+        UserSettings.SORT_RECORDS_BY_PROTOCOL = false;
+        UserSettings.SORT_RECORDS_BY_DESCRIPTION= false;
+        UserSettings.SORT_RECORDS_BY_STATUS = true;
+
+        if (mRecords.size() > 0) {
+            if(order) {
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return RecordHelper.getStatusStr(object1).compareTo(RecordHelper.getStatusStr(object2));
+                    }
+                });
+                UserSettings.SORT_ORDER = true;
+            } else {
+                Collections.sort(mRecords, new Comparator<Record>() {
+                    @Override
+                    public int compare(final Record object1, final Record object2) {
+                        return RecordHelper.getStatusStr(object2).compareTo(RecordHelper.getStatusStr(object1));
+                    }
+                });
+                UserSettings.SORT_ORDER = false;
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+
 
 }
