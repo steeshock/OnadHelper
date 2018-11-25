@@ -18,8 +18,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -27,7 +25,6 @@ import java.util.TreeMap;
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.RecordHelper;
-import ru.steeshock.protocols.utils.FailureTypeValueFormatter;
 import ru.steeshock.protocols.utils.ValueComparator;
 
 import static android.content.ContentValues.TAG;

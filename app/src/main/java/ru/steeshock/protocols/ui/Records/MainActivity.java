@@ -297,6 +297,8 @@ public class MainActivity extends AppCompatActivity
         Long statusNum;
         Long firstDate;
         Long lastDate;
+        Long stage;
+        Long failureType;
         String userToken;
 
         for (int i = 0; i < c.getCount(); i++){
@@ -307,8 +309,10 @@ public class MainActivity extends AppCompatActivity
             firstDate = c.getLong(c.getColumnIndex("first_date"));
             lastDate = c.getLong(c.getColumnIndex("last_date"));
             userToken = c.getString(c.getColumnIndex("user_token"));
+            stage = c.getLong(c.getColumnIndex("stage"));
+            failureType = c.getLong(c.getColumnIndex("failure_type"));
             Log.d(TAG, "field: " + firstDate);
-            recordDao.insertRecord(new Record(protocolNumber, actNumber, description, statusNum, firstDate, lastDate, userToken));
+            recordDao.insertRecord(new Record(protocolNumber, actNumber, description, statusNum, firstDate, lastDate, stage, failureType, userToken));
             c.moveToNext();
         }
 

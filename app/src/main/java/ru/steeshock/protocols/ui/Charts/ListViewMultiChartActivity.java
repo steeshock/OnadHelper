@@ -46,8 +46,8 @@ public class ListViewMultiChartActivity extends AppCompatActivity {
         ArrayList<ChartItem> list = new ArrayList<>();
 
         list.add(new PieChartItem(mDataProvider.makeStatsProtocolWorkersDataPie(),"Всего: " + mDataProvider.mRecordDao.getRecords().size()));
-        list.add(new BarChartItem(mDataProvider.makeStatsStagesDataPie(), this, new StageValueFormatter()));
-        list.add(new BarChartItem(mDataProvider.makeStatsFailureTypeDataPie(), this, new FailureTypeValueFormatter()));
+        list.add(new BarChartItem(mDataProvider.makeStatsStagesDataPie(), "Статистика отказов по этапам", new StageValueFormatter()));
+        list.add(new BarChartItem(mDataProvider.makeStatsFailureTypeDataPie(), "Статистика отказов по типу отказа", new FailureTypeValueFormatter()));
 
         // 30 items
         /*for (int i = 0; i < 10; i++) {

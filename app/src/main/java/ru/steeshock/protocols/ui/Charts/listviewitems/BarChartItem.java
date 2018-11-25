@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import ru.steeshock.protocols.utils.StageValueFormatter;
 public class BarChartItem extends ChartItem {
 
     IAxisValueFormatter formatter;
+    String description;
 
     /*public DisplayMetrics displayMetrics;
 
@@ -34,10 +36,11 @@ public class BarChartItem extends ChartItem {
                 .getDefaultDisplay().getMetrics(displayMetrics);
     }*/
 
-    public BarChartItem(ChartData<?> cd, Context c, IAxisValueFormatter formatter) {
+    public BarChartItem(ChartData<?> cd, String description, IAxisValueFormatter formatter) {
         super(cd);
 
         this.formatter = formatter;
+        this.description = description;
     }
 
     @Override
@@ -88,6 +91,15 @@ public class BarChartItem extends ChartItem {
         rightAxis.setLabelCount(5, false);
         rightAxis.setSpaceTop(20f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        // описание
+        holder.chart.getDescription().setEnabled(true);
+        holder.chart.getDescription().setPosition(550, 50);
+        holder.chart.getDescription().setTextAlign(Paint.Align.CENTER);
+        holder.chart.getDescription().setTextSize(14);
+        holder.chart.getDescription().setText(description);
+
+        holder.chart.getLegend().setEnabled(false);
 
 
         // set data

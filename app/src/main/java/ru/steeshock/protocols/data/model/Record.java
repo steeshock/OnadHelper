@@ -76,6 +76,18 @@ public class Record {
         mUserToken = token;
     }
 
+    public Record(String protocolNumber, String actNumber, String description, long statusNum, long firstDate, long lastDate, long stage, long failureType,  String token) {
+        mProtocolNumber = protocolNumber;
+        mActNumber = actNumber;
+        mDescription = description;
+        mStatusNum = statusNum;
+        mFirstDate = firstDate;
+        mLastDate = lastDate;
+        mStage = stage;
+        mFailureType = failureType;
+        mUserToken = token;
+    }
+
     public int getId() {
         return mId;
     }
