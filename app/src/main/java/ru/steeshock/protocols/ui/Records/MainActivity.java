@@ -94,24 +94,24 @@ public class MainActivity extends AppCompatActivity
         tvProtocols.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRecordAdapter.sortRecordsByProtocolNumber(UserSettings.SORT_ORDER);
                 UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+                mRecordAdapter.sortRecordsByProtocolNumber(UserSettings.SORT_ORDER);
             }
         });
 
         tvDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRecordAdapter.sortRecordsByDescription(UserSettings.SORT_ORDER);
                 UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+                mRecordAdapter.sortRecordsByDescription(UserSettings.SORT_ORDER);
             }
         });
 
         tvStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRecordAdapter.sortRecordsByStatus(UserSettings.SORT_ORDER);
                 UserSettings.SORT_ORDER = !UserSettings.SORT_ORDER;
+                mRecordAdapter.sortRecordsByStatus(UserSettings.SORT_ORDER);
             }
         });
 

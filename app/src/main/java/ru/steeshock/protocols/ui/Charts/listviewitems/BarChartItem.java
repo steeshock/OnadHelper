@@ -21,6 +21,8 @@ import ru.steeshock.protocols.utils.StageValueFormatter;
 
 public class BarChartItem extends ChartItem {
 
+    IAxisValueFormatter formatter;
+
     /*public DisplayMetrics displayMetrics;
 
     public BarChartItem(ChartData<?> cd, Context c) {
@@ -32,8 +34,10 @@ public class BarChartItem extends ChartItem {
                 .getDefaultDisplay().getMetrics(displayMetrics);
     }*/
 
-    public BarChartItem(ChartData<?> cd, Context c) {
+    public BarChartItem(ChartData<?> cd, Context c, IAxisValueFormatter formatter) {
         super(cd);
+
+        this.formatter = formatter;
     }
 
     @Override
@@ -68,13 +72,12 @@ public class BarChartItem extends ChartItem {
         holder.chart.setExtraOffsets(0, 5, 0, 0);
 
         // своя ось X
-        IAxisValueFormatter customFormatter = new StageValueFormatter();
 
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-        xAxis.setValueFormatter(customFormatter);
+        xAxis.setValueFormatter(formatter);
 
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setLabelCount(5, false);

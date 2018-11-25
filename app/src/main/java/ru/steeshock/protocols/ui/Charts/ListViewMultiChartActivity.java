@@ -18,6 +18,8 @@ import ru.steeshock.protocols.R;
 import ru.steeshock.protocols.ui.Charts.listviewitems.BarChartItem;
 import ru.steeshock.protocols.ui.Charts.listviewitems.ChartItem;
 import ru.steeshock.protocols.ui.Charts.listviewitems.PieChartItem;
+import ru.steeshock.protocols.utils.FailureTypeValueFormatter;
+import ru.steeshock.protocols.utils.StageValueFormatter;
 
 /**
  * Demonstrates the use of charts inside a ListView. IMPORTANT: provide a
@@ -44,7 +46,8 @@ public class ListViewMultiChartActivity extends AppCompatActivity {
         ArrayList<ChartItem> list = new ArrayList<>();
 
         list.add(new PieChartItem(mDataProvider.makeStatsProtocolWorkersDataPie(),"Всего: " + mDataProvider.mRecordDao.getRecords().size()));
-        list.add(new BarChartItem(mDataProvider.makeStatsStagesDataPie(), this));
+        list.add(new BarChartItem(mDataProvider.makeStatsStagesDataPie(), this, new StageValueFormatter()));
+        list.add(new BarChartItem(mDataProvider.makeStatsFailureTypeDataPie(), this, new FailureTypeValueFormatter()));
 
         // 30 items
         /*for (int i = 0; i < 10; i++) {

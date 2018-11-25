@@ -2,6 +2,8 @@ package ru.steeshock.protocols.ui.Charts;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -16,12 +18,20 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.data.database.RecordDao;
 import ru.steeshock.protocols.data.model.RecordHelper;
+import ru.steeshock.protocols.utils.FailureTypeValueFormatter;
+import ru.steeshock.protocols.utils.ValueComparator;
 
+import static android.content.ContentValues.TAG;
+import static ru.steeshock.protocols.utils.FailureTypeValueFormatter.listOfActualFailureTypes;
 import static ru.steeshock.protocols.utils.StageValueFormatter.listOfActualStages;
 
 public class ChartsDataProvider {
@@ -158,24 +168,28 @@ public class ChartsDataProvider {
 
         listOfActualStages.clear(); //каждый раз очишаем список этапов, полученных в ходе запроса
 
-        List<Integer> protocolsByStages = new ArrayList<>();
-        List<Integer> sortedList = new ArrayList<>();
+        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Integer> non_zero_map = new HashMap<>();
+        TreeMap<String, Integer> sorted_map;
 
         for (int i = 0; i < RecordHelper.LIST_OF_FULL_STAGES.length; i++){
-            protocolsByStages.add(mRecordDao.getRecordsByStage(i).size());
+            map.put(RecordHelper.LIST_OF_FULL_STAGES[i], mRecordDao.getRecordsByStage(i).size()); // получаем список всех этапов и их значения
         }
 
-        for (int i = 0;i < protocolsByStages.size();i++){
-            if (protocolsByStages.get(i) != 0){
-                listOfActualStages.add(RecordHelper.LIST_OF_SHORT_STAGES[i]);
-                sortedList.add(protocolsByStages.get(i));
-            }
+        for (int i = 0; i < map.size(); i++){
+                if (map.get(RecordHelper.LIST_OF_FULL_STAGES[i]) != 0){
+                    non_zero_map.put(RecordHelper.LIST_OF_SHORT_STAGES[i], map.get(RecordHelper.LIST_OF_FULL_STAGES[i])); // удаляем все значения с 0
+                }
         }
+
+        sorted_map = ValueComparator.sortMapByValue(non_zero_map); // сортируем список по убыванию
+
+        listOfActualStages.addAll(sorted_map.keySet()); //получаем список всех актуальных этапов после всех сортировок!
 
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < sortedList.size(); i++) {
-            entries.add(new BarEntry(i, sortedList.get(i)));
+        for (int i = 0; i < non_zero_map.size(); i++) {
+            entries.add(new BarEntry(i, non_zero_map.get(listOfActualStages.get(i))));
         }
 
         BarDataSet d = new BarDataSet(entries, "Отказы по этапам");
@@ -187,6 +201,53 @@ public class ChartsDataProvider {
 
         return cd;
     }
+
+    public BarData makeStatsFailureTypeDataPie() {
+
+        listOfActualFailureTypes.clear(); //каждый раз очишаем список этапов, полученных в ходе запроса
+
+        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Integer> non_zero_map = new HashMap<>();
+        TreeMap<String, Integer> sorted_map;
+
+        for (int i = 0; i < RecordHelper.LIST_OF_FULL_FAILURE_TYPES.length; i++){
+            map.put(RecordHelper.LIST_OF_FULL_FAILURE_TYPES[i], mRecordDao.getRecordsByFailureType(i).size()); // получаем список всех этапов и их значения
+        }
+
+        Log.d(TAG, "full: " + map.toString());
+
+        for (int i = 0; i < map.size(); i++){
+            if (map.get(RecordHelper.LIST_OF_FULL_FAILURE_TYPES[i]) != 0){
+                non_zero_map.put(RecordHelper.LIST_OF_SHORT_FAILURE_TYPES[i], map.get(RecordHelper.LIST_OF_FULL_FAILURE_TYPES[i])); // удаляем все значения с 0
+            }
+        }
+
+        Log.d(TAG, "non-zero: " + non_zero_map.toString());
+
+        sorted_map = ValueComparator.sortMapByValue(non_zero_map); // сортируем список по убыванию
+
+        listOfActualFailureTypes.addAll(sorted_map.keySet()); //получаем список всех актуальных этапов после всех сортировок!
+
+
+        Log.d(TAG, "makeStatsStagesDataPie: " +  listOfActualFailureTypes.toString());
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < non_zero_map.size(); i++) {
+            entries.add(new BarEntry(i, non_zero_map.get(listOfActualFailureTypes.get(i))));
+        }
+
+        BarDataSet d = new BarDataSet(entries, "Отказы по типу");
+        setColorsToDiagram(d);
+        d.setHighLightAlpha(150);
+
+        BarData cd = new BarData(d);
+        cd.setBarWidth(0.9f);
+
+        return cd;
+    }
+
+
 
     private void setColorsToDiagram (DataSet dataSet){
 

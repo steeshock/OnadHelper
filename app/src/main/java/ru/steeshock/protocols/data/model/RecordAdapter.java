@@ -131,13 +131,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
         //сортируем списки,если они уже были отсортированы ранее
 
         if(UserSettings.SORT_RECORDS_BY_PROTOCOL)
-            sortRecordsByProtocolNumber(true);
+            sortRecordsByProtocolNumber(UserSettings.SORT_ORDER);
 
         if(UserSettings.SORT_RECORDS_BY_DESCRIPTION)
-            sortRecordsByDescription(true);
+            sortRecordsByDescription(UserSettings.SORT_ORDER);
 
         if(UserSettings.SORT_RECORDS_BY_STATUS)
-            sortRecordsByStatus(true);
+            sortRecordsByStatus(UserSettings.SORT_ORDER);
 
 
         notifyDataSetChanged();
@@ -146,8 +146,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
     public void sortRecordsByProtocolNumber(boolean order) {
 
         UserSettings.SORT_RECORDS_BY_PROTOCOL = true;
-        UserSettings.SORT_RECORDS_BY_DESCRIPTION= false;
+        UserSettings.SORT_RECORDS_BY_DESCRIPTION = false;
         UserSettings.SORT_RECORDS_BY_STATUS = false;
+        UserSettings.SORT_ORDER = order;
 
         if (mRecords.size() > 0) {
             if (order){
@@ -157,7 +158,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return object1.getProtocolNumber().compareTo(object2.getProtocolNumber());
                     }
                 });
-                UserSettings.SORT_ORDER = true;
             } else {
                 Collections.sort(mRecords, new Comparator<Record>() {
                     @Override
@@ -165,7 +165,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return object2.getProtocolNumber().compareTo(object1.getProtocolNumber());
                     }
                 });
-                UserSettings.SORT_ORDER = false;
             }
 
         }
@@ -178,6 +177,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
         UserSettings.SORT_RECORDS_BY_PROTOCOL = false;
         UserSettings.SORT_RECORDS_BY_DESCRIPTION= true;
         UserSettings.SORT_RECORDS_BY_STATUS = false;
+        UserSettings.SORT_ORDER = order;
 
         if (mRecords.size() > 0) {
             if (order){
@@ -187,7 +187,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return object1.getDescription().compareTo(object2.getDescription());
                     }
                 });
-                UserSettings.SORT_ORDER = true;
             } else {
                 Collections.sort(mRecords, new Comparator<Record>() {
                     @Override
@@ -195,7 +194,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return object2.getDescription().compareTo(object1.getDescription());
                     }
                 });
-                UserSettings.SORT_ORDER = false;
             }
         }
 
@@ -207,6 +205,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
         UserSettings.SORT_RECORDS_BY_PROTOCOL = false;
         UserSettings.SORT_RECORDS_BY_DESCRIPTION= false;
         UserSettings.SORT_RECORDS_BY_STATUS = true;
+        UserSettings.SORT_ORDER = order;
 
         if (mRecords.size() > 0) {
             if(order) {
@@ -216,7 +215,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return RecordHelper.getStatusStr(object1).compareTo(RecordHelper.getStatusStr(object2));
                     }
                 });
-                UserSettings.SORT_ORDER = true;
             } else {
                 Collections.sort(mRecords, new Comparator<Record>() {
                     @Override
@@ -224,7 +222,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordHolder>{
                         return RecordHelper.getStatusStr(object2).compareTo(RecordHelper.getStatusStr(object1));
                     }
                 });
-                UserSettings.SORT_ORDER = false;
             }
         }
 

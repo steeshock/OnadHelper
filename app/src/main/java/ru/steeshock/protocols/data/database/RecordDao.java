@@ -38,6 +38,10 @@ public interface RecordDao {
     @Query("select * from record where stage = :stage")
     List<Record> getRecordsByStage(int stage);
 
+    //Извлекаем записи по FailureType
+    @Query("select * from record where failureType = :failureType")
+    List<Record> getRecordsByFailureType(int failureType);
+
     //извлекаем записи в виде курсора
     @Query("select * from record")
     Cursor getRecordsCursor();
