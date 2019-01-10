@@ -69,18 +69,25 @@ public class BarChartItem extends ChartItem {
         }
 
         // apply styling
-        holder.chart.getDescription().setEnabled(false);
         holder.chart.setDrawGridBackground(false);
         holder.chart.setDrawBarShadow(false);
-        holder.chart.setExtraOffsets(0, 5, 0, 0);
 
         // своя ось X
-
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(true);
+        xAxis.setDrawAxisLine(false);
+
+        // restrict interval to 1 (minimum).
+        // Данная строчка делает так, что при тапе на столбец, происходит его нормально масштабирование.
+        // Это обязательно нужно, если ось X не числовая
+        xAxis.setGranularity(1f);
+
+        //xAxis.setDrawLimitLinesBehindData(true);
+        //xAxis.setCenterAxisLabels(true);
+        //xAxis.setDrawLabels(false);
         xAxis.setValueFormatter(formatter);
+
 
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setLabelCount(5, false);

@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity
     private TextView tvProtocols, tvDescription, tvStatus;
     private LinearLayoutManager mLayoutLinearManager;
 
-    // создаем объект для создания и управления версиями БД через обычный SQL, потому что Room не бэкапится как надо
+    // создаем объект для создания и управления версиями БД через обычный SQL,
+    // потому что с помощью Room не удается сделать бэкап БД в файл
     DBHelper dbHelper = new DBHelper (this);
     private Parcelable mListState;
 
