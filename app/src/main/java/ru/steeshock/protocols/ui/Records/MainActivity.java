@@ -1,11 +1,9 @@
 package ru.steeshock.protocols.ui.Records;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -23,13 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
-import java.util.List;
 
 import ru.steeshock.protocols.AppDelegate;
 import ru.steeshock.protocols.R;
@@ -41,6 +32,7 @@ import ru.steeshock.protocols.data.model.RecordAdapter;
 import ru.steeshock.protocols.ui.AuthActivity;
 import ru.steeshock.protocols.ui.Charts.ListViewMultiChartActivity;
 import ru.steeshock.protocols.ui.FilterFragment;
+import ru.steeshock.protocols.utils.DatabaseServices.BackupDatabaseAsync;
 import ru.steeshock.protocols.utils.UserSettings;
 
 public class MainActivity extends AppCompatActivity
@@ -58,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tvAllRecords, tvMyRecords;
     private TextView tvProtocols, tvDescription, tvStatus;
     private LinearLayoutManager mLayoutLinearManager;
+    private BackupDatabaseAsync backupDatabaseAsync;
 
     // создаем объект для создания и управления версиями БД через обычный SQL,
     // потому что с помощью Room не удается сделать бэкап БД в файл
@@ -74,6 +67,8 @@ public class MainActivity extends AppCompatActivity
         mRecordAdapter = new RecordAdapter(recordDao);
 
         mUserSettings = new UserSettings(getApplicationContext());
+
+        backupDatabaseAsync = new BackupDatabaseAsync(this, recordDao);
 
         UserSettings.HIDE_RECORDS_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_RECORDS_FLAG_KEY, false);
         UserSettings.HIDE_AUTHOR_FLAG = mUserSettings.mSharedPreferences.getBoolean(UserSettings.HIDE_AUTHOR_FLAG_KEY, false);
@@ -248,7 +243,7 @@ public class MainActivity extends AppCompatActivity
                 showFilter(FilterFragment.newInstance());
                 break;
             case R.id.action_backup:
-                makeSQLiteBackupDatabase();
+                backupDatabaseAsync.execute();
                 break;
             case R.id.action_fillDB:
                 fillDataBaseFromBackupFile();
@@ -257,8 +252,6 @@ public class MainActivity extends AppCompatActivity
                 showExtraNewRecords();
                 break;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -278,9 +271,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(fragmentName)
                     .commit();
-
         }
-
     }
 
     private void fillDataBaseFromBackupFile() {
@@ -318,101 +309,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         c.close();
-
-    }
-
-
-    public void makeSQLiteBackupDatabase() {
-
-
-        getApplicationContext().deleteDatabase("backup_record_database");
-
-        List<Record> mRecords = recordDao.getRecords();
-
-        // подключаемся к БД
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        for(Record record:mRecords) {
-
-            // создаем объект для данных
-            ContentValues cv = new ContentValues();
-
-            String protocol_number = record.getProtocolNumber();
-            String act_number = record.getActNumber();
-            String description = record.getDescription();
-            Long status_num = record.getStatusNum();
-            Long firstDate = record.getFirstDate();
-            Long lastDate = record.getLastDate();
-            Long stage = record.getStage();
-            Long failureType = record.getFailureType();
-            String user_token = record.getUserToken();
-
-            cv.put("protocol_number", protocol_number);
-            cv.put("act_number", act_number);
-            cv.put("description", description);
-            cv.put("status_num", status_num);
-            cv.put("first_date", firstDate);
-            cv.put("last_date", lastDate);
-            cv.put("stage", stage);
-            cv.put("failure_type", failureType);
-            cv.put("user_token", user_token);
-
-            db.insert("RecordsTable", null, cv);
-
-        }
-
-        db.close();
-
-        try {
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
-
-            if (sd.canWrite())
-            {
-                String currentDBPath = "//data//ru.steeshock.protocols//databases//backup_record_database";
-                String backupDBPath = "backup_record_database";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
-                if (currentDB.exists()) {
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
-                    Toast.makeText(this, "Backup done", Toast.LENGTH_LONG).show();
-                }
-            } else Toast.makeText(this, "Вставьте SD карту!", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-
-            Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-        }
-
-        /*try {
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
-
-            if (sd.canWrite())
-            {
-                String currentDBPath = "//data//ru.steeshock.protocols//databases//records_database";
-                String backupDBPath = "records_database";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
-                if (currentDB.exists()) {
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
-                    Toast.makeText(this, "Backup done", Toast.LENGTH_LONG).show();
-                }
-            } else Toast.makeText(this, "Вставьте SD карту!", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-
-            Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-        }*/
-
 
     }
 
